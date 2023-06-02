@@ -25,7 +25,10 @@ int main(){
         res = min( res, p[i] & -p[i]);
     }
 
+    // 直接使用内置的函数来计算有多少个0
     cout << __builtin_ctz(res) << endl;
+
+    // // 自己写一个简单的逻辑来计算有多少个0
     // int k = 0;
     // for( int i = 0 ; i < 32 ; i++ ){
     //     if( res & 1 ) break;
