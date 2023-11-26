@@ -16,7 +16,6 @@ using namespace std;
 
 #include <type_traits>
 
-using namespace std;
 int main() {
     int N;
     cin >> N;
