@@ -10,30 +10,30 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
 using namespace std;
-const int N = 55;
-int n, m;
-int w[N][N];
-int f[N + N][N][N];
+
+const int N = 310;
+int n;
+int s[N];
+int f[N][N];
 
 int main() {
-    set<int> s;
-    s.insert(1);
-    s.insert(2);
-    s.insert(3);
-    s.insert(1);
-    cout << "set 的 size 值为 ：" << s.size() << endl;
-    cout << "set 的 maxsize的值为 ：" << s.max_size() << endl;
-    cout << "set 中的第一个元素是 ：" << *s.begin() << endl;
-    cout << "set 中的最后一个元素是:" << *s.end() << endl;
-    // s.clear();
-    if (s.empty()) {
-        cout << "set 为空 ！！！" << endl;
-    }
-    cout << "set 的 size 值为 ：" << s.size() << endl;
-    cout << "set 的 maxsize的值为 ：" << s.max_size() << endl;
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i++)
+        scanf("%d", &s[i]);
+    for (int i = 1; i <= n; i++)
+        s[i] += s[i - 1];
 
-    cout << *s.lower_bound(1) << endl;
-    cout << *s.upper_bound(1) << endl;
+    // 第一层循环：遍历区间长度
+    for (int len = 2; len <= n; len++)
+        // 第二层循环：遍历起始点
+        for (int i = 1; i + len - 1 <= n; i++) {
+            int l = i, r = i + len - 1;
+            f[l][r] = 1e9;
+            for (int k = l; k < r; k++)
+                f[l][r] = min(f[l][r], f[l][k] + f[k + 1][r] + s[r] - s[l - 1]);
+        }
+    printf("%d\n", f[1][n]);
     return 0;
 }
