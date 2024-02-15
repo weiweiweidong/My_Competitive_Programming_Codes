@@ -1,39 +1,56 @@
-#include <math.h>
-#include <string.h>
-#include <algorithm>
 #include <iostream>
-#include <map>
-#include <queue>
-#include <set>
-#include <stack>
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
 using namespace std;
+const int N = 1e6;
 
-const int N = 310;
-int n;
-int s[N];
-int f[N][N];
+struct Node {
+    int cnt;
+    int nd[26];
+};
 
-int main() {
-    scanf("%d", &n);
-    for (int i = 1; i <= n; i++)
-        scanf("%d", &s[i]);
-    for (int i = 1; i <= n; i++)
-        s[i] += s[i - 1];
+class Trie {
+    Node m_tr[N + 1];
+    int len;
 
-    // 第一层循环：遍历区间长度
-    for (int len = 2; len <= n; len++)
-        // 第二层循环：遍历起始点
-        for (int i = 1; i + len - 1 <= n; i++) {
-            int l = i, r = i + len - 1;
-            f[l][r] = 1e9;
-            for (int k = l; k < r; k++)
-                f[l][r] = min(f[l][r], f[l][k] + f[k + 1][r] + s[r] - s[l - 1]);
+   public:
+    Trie(){};
+    ~Trie(){};
+    void insert(string str);
+    bool search(string str);
+};
+
+void Trie::insert(string str) {
+    int slen = str.size(), p = 0;
+    for (int i = 0; i < slen; i++) {
+        if (m_tr[p].nd[str[i] - 'a'] == 0) {
+            len++;
+            m_tr[p].nd[str[i] - 'a'] = len;
         }
-    printf("%d\n", f[1][n]);
-    return 0;
+        p = m_tr[p].nd[str[i] - 'a'];
+    }
+    m_tr[p].cnt++;
+}
+
+bool Trie::search(string str) {
+    int slen = str.size(), p = 0;
+    for (int i = 0; i < slen; i++) {
+        p = m_tr[p].nd[str[i] - 'a'];
+        if (p == 0)
+            return false;
+    }
+    return m_tr[p].cnt;
+}
+
+Trie tr;
+int main() {
+    int n, op;
+    string s;
+    cin >> n;
+    for (int i = 1; i <= n; i++) {
+        cin >> op >> s;
+        if (op == 1)
+            tr.insert(s);
+        else {
+            cout << (tr.search(s) ? "Yes" : "No") << endl;
+        }
+    }
 }
