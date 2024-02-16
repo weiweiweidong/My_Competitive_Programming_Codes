@@ -1,6 +1,6 @@
 #include <math.h>
-#include <string.h>
 #include <algorithm>
+#include <cstring>
 #include <iomanip>
 #include <iostream>
 #include <map>
