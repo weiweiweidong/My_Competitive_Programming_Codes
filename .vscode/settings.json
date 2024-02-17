@@ -65,7 +65,21 @@
     "variant": "cpp",
     "algorithm": "cpp",
     "charconv": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "cfenv": "cpp",
+    "cinttypes": "cpp",
+    "condition_variable": "cpp",
+    "csetjmp": "cpp",
+    "csignal": "cpp",
+    "forward_list": "cpp",
+    "fstream": "cpp",
+    "future": "cpp",
+    "list": "cpp",
+    "regex": "cpp",
+    "scoped_allocator": "cpp",
+    "thread": "cpp",
+    "typeindex": "cpp",
+    "valarray": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
