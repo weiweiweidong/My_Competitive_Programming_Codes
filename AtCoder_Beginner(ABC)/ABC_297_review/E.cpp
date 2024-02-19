@@ -31,8 +31,7 @@ int main() {
     for (int i = 0; i < K - 1; i++) {
         LL me = *Q.begin();
         Q.erase(me);
-        // 将新的值放入set中。set是由红黑树实现的，各种操作平均时间复杂度为
-        // O(logn)
+        // 将新的值放入set中。set是由红黑树实现的，各种操作平均时间复杂度为O(logn)
         for (auto x : A) {
             Q.insert(me + x);
         }
