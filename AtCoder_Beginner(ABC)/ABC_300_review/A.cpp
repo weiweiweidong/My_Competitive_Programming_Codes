@@ -17,4 +17,20 @@ typedef long L;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-int main() {}
+int main() {
+    int N, A, B;
+    cin >> N >> A >> B;
+    vector<int> C;
+    for (int i = 0; i < N; i++) {
+        int x;
+        cin >> x;
+        C.push_back(x);
+    }
+
+    for (int i = 0; i < N; i++) {
+        if (C[i] == A + B) {
+            cout << i + 1 << endl;
+            return 0;
+        }
+    }
+}
