@@ -1,19 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define lll __int128
-const ll modd = 998244353;
-const ll inf = 1e18;
+typedef long long LL;
 
-ll n;
-ll dp[3];
+LL n;
+LL dp[3];
 inline void solve() {
     cin >> n;
-    ll sum = 0;
+    LL sum = 0;
     memset(dp, 0, sizeof dp);
 
-    for (ll i = 0; i < n; i++) {
-        ll x;
+    for (LL i = 0; i < n; i++) {
+        LL x;
         cin >> x;
         x = x % 3;
         sum += x;

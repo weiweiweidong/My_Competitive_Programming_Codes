@@ -1,17 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define lll __int128
-const ll modd = 998244353;
-const ll inf = 1e18;
+typedef long long LL;
 
-ll a, b, l;
+LL a, b, l;
 
 inline void solve() {
     cin >> a >> b >> l;
-    ll res = 0;
-    set<ll> ans;
-    vector<ll> A, B;
+    LL res = 0;
+    set<LL> ans;
+    vector<LL> A, B;
     for (int i = 1; i <= l; i *= a)
         A.push_back(i);
     for (int i = 1; i <= l; i *= b)
@@ -19,7 +16,7 @@ inline void solve() {
 
     for (auto m : A) {
         for (auto n : B) {
-            ll k = l / m / n;
+            LL k = l / m / n;
             if (k * m * n == l) {
                 ans.insert(k);
             }

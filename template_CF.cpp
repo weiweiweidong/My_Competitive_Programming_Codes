@@ -1,12 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define int long long
+typedef long long LL;
 
-void solve() {}
+LL n;
+inline void solve() {
+    cin >> n;
+}
 
-signed main() {
-    ios::sync_with_stdio(0);
+inline void pre_work() {}
+
+int main() {
+    ios::sync_with_stdio(false);
     cin.tie(0), cout.tie(0);
+
+    pre_work();
+
     int T = 1;
     cin >> T;
     while (T--)

@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-using i64 = long long;
+typedef long long LL;
 
 void solve() {
     int n;
