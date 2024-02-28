@@ -20,6 +20,7 @@ typedef pair<int, int> PII;
 int H, W;
 vector<vector<char>> A, B;
 
+// 行变换
 void row() {
     for (int j = 0; j < W; j++) {
         char c = A[0][j];
@@ -28,6 +29,7 @@ void row() {
         A[H - 1][j] = c;
     }
 }
+// 列变换
 void col() {
     for (int i = 0; i < H; i++) {
         char c = A[i][0];
