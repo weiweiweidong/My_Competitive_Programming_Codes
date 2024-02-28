@@ -1,2 +1,3 @@
-# My_Atcoder
-This repository is mainly used to store all of my code on AtCoder.
+# My_Compective_Programming_Source
+
+This repository is mainly used to store all of my code learning Compective Programming and Algorithm
