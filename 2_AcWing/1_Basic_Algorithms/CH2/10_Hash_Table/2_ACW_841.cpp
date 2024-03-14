@@ -1,5 +1,5 @@
-// Problem:
-
+// Problem: https://www.acwing.com/problem/content/843/
+// 字符串哈希
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
