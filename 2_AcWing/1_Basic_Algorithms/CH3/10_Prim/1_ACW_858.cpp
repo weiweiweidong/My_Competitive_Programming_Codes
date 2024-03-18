@@ -1,5 +1,5 @@
 // Problem: https://www.acwing.com/problem/content/860/
-// Prim 算法求最小生成树
+// Prim 算法求最小生成树（适用于稠密图）
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
