@@ -20,7 +20,7 @@ int dijkstra() {
     for (int i = 0; i < n; i++) {
         // 设当前要看的节点为 -1
         int now = -1;
-        // 遍历一遍所有的点，找到目前状态下，距离最短的点
+        // 遍历一遍所有的点，找到目前状态下，距离1点最短的点
         // <-- 这一步找最小值的过程，就是朴素版dijkstra算法中最慢的地方
         for (int next = 1; next <= n; next++) {
             if (!st[next] && (now == -1 || dist[now] > dist[next]))
