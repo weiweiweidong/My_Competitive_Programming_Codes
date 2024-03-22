@@ -7,6 +7,11 @@ typedef pair<int, int> PII;
 
 int n;
 
+/*
+    exgcd 的作用：
+        1. 返回a和b的最大公约数d （和gcd算法功能相同）
+        2. 求出 ax+by=gxd(a,b) 的一组特解 x和y
+*/
 int exgcd(int a, int b, int& x, int& y) {
     if (b == 0) {
         x = 1, y = 0;
