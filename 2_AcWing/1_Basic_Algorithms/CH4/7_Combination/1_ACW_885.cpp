@@ -1,5 +1,5 @@
 // Problem: https://www.acwing.com/problem/content/887/
-// 求组合数
+// 求组合数：打表预处理
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
