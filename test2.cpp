@@ -1,66 +1,87 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <vector>
+using namespace std;
 
-using i64 = long long;
+const int dx[4] = {1, -1, 0, 0};
+const int dy[4] = {0, 0, 1, -1};
 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+struct State {
+    int x, y, energy;
+};
 
-    int a, b;
-    std::cin >> a >> b;
+bool bfs(const vector<string>& grid,
+         const map<pair<int, int>, int>& medicines,
+         int H,
+         int W) {
+    vector<vector<int>> visited(H, vector<int>(W, -1));
+    queue<State> q;
+    int sx, sy, tx, ty;
 
-    i64 C;
-    std::cin >> C;
-
-    // 计算C里面有多少1
-    int c = __builtin_popcountll(C);
-    // 不可能有解
-    if (a + b < c || (a + b - c) % 2 == 1) {
-        std::cout << -1 << "\n";
-        return 0;
-    }
-
-    // 计算出重叠部分有多少位
-    int ex = (a + b - c) / 2;
-    // 不可能有解
-    if (ex + c > 60) {
-        std::cout << -1 << "\n";
-        return 0;
-    }
-
-    // 减去重叠部分
-    a -= ex;
-    b -= ex;
-    // 不可能有解
-    if (a < 0 || b < 0) {
-        std::cout << -1 << "\n";
-        return 0;
-    }
-
-    i64 X = 0, Y = 0;
-    for (int i = 0; i < 60; i++) {
-        // 若C的第i位为1
-        if (C >> i & 1) {
-            // 如果a还有剩余
-            if (a) {
-                // 把X的第i位变为1
-                X |= 1LL << i;
-                a--;
-            } else {
-                // 把Y的第i位变为1
-                Y |= 1LL << i;
-                b--;
+    // Find start and target positions
+    for (int i = 0; i < H; ++i) {
+        for (int j = 0; j < W; ++j) {
+            if (grid[i][j] == 'S') {
+                sx = i;
+                sy = j;
+            } else if (grid[i][j] == 'T') {
+                tx = i;
+                ty = j;
             }
         }
-        // 如果C的第i位为0，优先把重合的ex部分放进去
-        else if (ex) {
-            X |= 1LL << i;
-            Y |= 1LL << i;
-            ex--;
+    }
+
+    q.push({sx, sy, 0});
+    visited[sx][sy] = 0;
+
+    while (!q.empty()) {
+        State curr = q.front();
+        q.pop();
+
+        if (curr.x == tx && curr.y == ty)
+            return true;  // Reached target
+
+        for (int i = 0; i < 4; ++i) {
+            int nx = curr.x + dx[i], ny = curr.y + dy[i];
+            if (nx < 0 || nx >= H || ny < 0 || ny >= W || grid[nx][ny] == '#')
+                continue;  // Out of bounds or obstacle
+
+            int nextEnergy = curr.energy - 1;
+            auto it = medicines.find({nx, ny});
+            if (it != medicines.end()) {  // Found medicine
+                nextEnergy =
+                    max(nextEnergy, it->second);  // Use medicine if beneficial
+            }
+
+            if (nextEnergy > visited[nx][ny]) {  // Can visit with more energy
+                visited[nx][ny] = nextEnergy;
+                q.push({nx, ny, nextEnergy});
+            }
         }
     }
-    // 输出X和Y
-    std::cout << X << " " << Y << "\n";
+
+    return false;
+}
+
+int main() {
+    int H, W, N;
+    cin >> H >> W;
+    vector<string> grid(H);
+    for (int i = 0; i < H; ++i)
+        cin >> grid[i];
+
+    cin >> N;
+    map<pair<int, int>, int> medicines;
+    for (int i = 0; i < N; ++i) {
+        int r, c, e;
+        cin >> r >> c >> e;
+        --r;
+        --c;  // Adjusting to 0-based indexing
+        medicines[{r, c}] = e;
+    }
+
+    cout << (bfs(grid, medicines, H, W) ? "Yes" : "No") << endl;
 
     return 0;
 }
