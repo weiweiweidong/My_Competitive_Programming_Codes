@@ -37,5 +37,8 @@
 *.app
 
 /test.cpp
+/test2.cpp
+/test3.cpp
+/test4.cpp
 /5_Playground
 /4_Working_Now
