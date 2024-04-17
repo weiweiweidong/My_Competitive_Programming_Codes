@@ -1,87 +1,76 @@
-#include <iostream>
-#include <map>
-#include <queue>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
 
-const int dx[4] = {1, -1, 0, 0};
-const int dy[4] = {0, 0, 1, -1};
+int A[3][3];
+int grid[3][3];  // 0 = empty, 1 = Takahashi, 2 = Aoki
 
-struct State {
-    int x, y, energy;
-};
-
-bool bfs(const vector<string>& grid,
-         const map<pair<int, int>, int>& medicines,
-         int H,
-         int W) {
-    vector<vector<int>> visited(H, vector<int>(W, -1));
-    queue<State> q;
-    int sx, sy, tx, ty;
-
-    // Find start and target positions
-    for (int i = 0; i < H; ++i) {
-        for (int j = 0; j < W; ++j) {
-            if (grid[i][j] == 'S') {
-                sx = i;
-                sy = j;
-            } else if (grid[i][j] == 'T') {
-                tx = i;
-                ty = j;
-            }
-        }
+bool check_win(int player) {
+    for (int i = 0; i < 3; ++i) {
+        if (grid[i][0] == player && grid[i][1] == player &&
+            grid[i][2] == player)
+            return true;
+        if (grid[0][i] == player && grid[1][i] == player &&
+            grid[2][i] == player)
+            return true;
     }
-
-    q.push({sx, sy, 0});
-    visited[sx][sy] = 0;
-
-    while (!q.empty()) {
-        State curr = q.front();
-        q.pop();
-
-        if (curr.x == tx && curr.y == ty)
-            return true;  // Reached target
-
-        for (int i = 0; i < 4; ++i) {
-            int nx = curr.x + dx[i], ny = curr.y + dy[i];
-            if (nx < 0 || nx >= H || ny < 0 || ny >= W || grid[nx][ny] == '#')
-                continue;  // Out of bounds or obstacle
-
-            int nextEnergy = curr.energy - 1;
-            auto it = medicines.find({nx, ny});
-            if (it != medicines.end()) {  // Found medicine
-                nextEnergy =
-                    max(nextEnergy, it->second);  // Use medicine if beneficial
-            }
-
-            if (nextEnergy > visited[nx][ny]) {  // Can visit with more energy
-                visited[nx][ny] = nextEnergy;
-                q.push({nx, ny, nextEnergy});
-            }
-        }
-    }
-
+    if (grid[0][0] == player && grid[1][1] == player && grid[2][2] == player)
+        return true;
+    if (grid[0][2] == player && grid[1][1] == player && grid[2][0] == player)
+        return true;
     return false;
 }
 
-int main() {
-    int H, W, N;
-    cin >> H >> W;
-    vector<string> grid(H);
-    for (int i = 0; i < H; ++i)
-        cin >> grid[i];
+// Minimax algorithm with depth
+int minimax(int depth, bool isMaximizingPlayer) {
+    int bestScore = (isMaximizingPlayer ? INT_MIN : INT_MAX);
 
-    cin >> N;
-    map<pair<int, int>, int> medicines;
-    for (int i = 0; i < N; ++i) {
-        int r, c, e;
-        cin >> r >> c >> e;
-        --r;
-        --c;  // Adjusting to 0-based indexing
-        medicines[{r, c}] = e;
+    if (check_win(1))
+        return 1;  // Takahashi win
+    if (check_win(2))
+        return -1;  // Aoki win
+
+    // Draw or full grid condition
+    bool full = true;
+    for (int i = 0; i < 3; ++i)
+        for (int j = 0; j < 3; ++j)
+            if (grid[i][j] == 0)
+                full = false;
+
+    if (full)
+        return 0;  // Draw or compare scores condition
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (grid[i][j] == 0) {
+                grid[i][j] =
+                    (isMaximizingPlayer ? 1 : 2);  // Make the move for player
+                int score = minimax(depth + 1, !isMaximizingPlayer);
+                grid[i][j] = 0;  // Undo the move
+                bestScore = (isMaximizingPlayer ? max(score, bestScore)
+                                                : min(score, bestScore));
+            }
+        }
+    }
+    return bestScore;
+}
+
+int main() {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            cin >> A[i][j];
+        }
     }
 
-    cout << (bfs(grid, medicines, H, W) ? "Yes" : "No") << endl;
+    memset(grid, 0, sizeof(grid));  // Reset the grid
+    int result = minimax(0, true);  // Start with Takahashi
+    if (result == 1)
+        cout << "Takahashi";
+    else if (result == -1)
+        cout << "Aoki";
+    else
+        cout << "Draw";
 
     return 0;
 }
