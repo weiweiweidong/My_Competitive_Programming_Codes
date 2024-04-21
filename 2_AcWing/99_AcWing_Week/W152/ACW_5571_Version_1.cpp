@@ -1,5 +1,14 @@
-// Problem:
+// Problem: https://www.acwing.com/problem/content/5574/
+// DP:状态机
 
+/*
+    备注：
+    本版代码是在比赛的时候写的版本。但是过后反思有一些问题：
+    1. 字符串可以直接按照字典序比较大小，没必要自己写 cmp 函数
+    2. 状态迁移的部分，思路虽然正确，但是代码写的太碎
+
+    写的更优雅的版本详见 version2
+*/
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
