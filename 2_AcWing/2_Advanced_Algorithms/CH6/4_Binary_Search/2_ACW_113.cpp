@@ -4,6 +4,9 @@
 // bool compare(int a, int b);
 // return bool means whether a is less than b.
 
+// 👇因为会报错，这里把代码整个注释掉了
+/*
+
 class Solution {
    public:
     vector<int> specialSort(int N) {
@@ -36,3 +39,5 @@ class Solution {
         return res;
     }
 };
+
+*/
