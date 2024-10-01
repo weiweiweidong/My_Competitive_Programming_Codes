@@ -10,6 +10,7 @@ const int N = (1 << 10) + 20;
 vector<int> state, head[N];
 int n, k;
 LL f[12][110][N];
+// 存放每个状态中的国王数
 int cnt[N];
 
 // 检查有没有出现相邻的两个1
@@ -21,7 +22,7 @@ bool check(int x) {
 }
 // O(1) 算法检查有没有出现相邻的两个1
 /*
-inline bool check2(int x) {
+bool check(int x) {
     return !(x & x >> 1);
 }
 */
