@@ -14,18 +14,19 @@ LL f[12][110][N];
 int cnt[N];
 
 // 检查有没有出现相邻的两个1
+/*
 bool check(int x) {
     for (int i = 0; i < n; i++)
         if ((x >> i & 1) && (x >> (i + 1) & 1))  // 第i位是1，而且第i+1位也是1
             return false;
     return true;
 }
-// O(1) 算法检查有没有出现相邻的两个1
-/*
+*/
+
+// O(1) 算法检查x中有没有出现相邻的两个1
 bool check(int x) {
     return !(x & x >> 1);
 }
-*/
 
 // 统计这个状态中有多少个1，即放置了多少个国王
 int count(int x) {
@@ -36,20 +37,22 @@ int count(int x) {
 }
 
 void pre() {
-    // 第一步：找出满足不会左右攻击的合法放置国王的状态
+    // 第一步：找出满足不会左右攻击的合法放置国王的状态。此时i为状态
     for (int i = 0; i < (1 << n); i++) {
         if (check(i)) {
             state.push_back(i);
+            // 预处理出来状态里面含有多少个 1（即有多少个国王）
             cnt[i] = count(i);
         }
     }
     // 第二步：在可能的状态中进一步筛选，确定转移关系
+    // 此时，i 和 j 是state 中的状态 index
     for (int i = 0; i < state.size(); i++) {
         for (int j = 0; j < state.size(); j++) {
             int a = state[i], b = state[j];
             // 第一个条件检查上下攻击；第二个条件检查斜对角攻击
             if ((a & b) == 0 && check(a | b))
-                // 说明下标为i的状态，能从下标为j的状态转移过来
+                // 意味着：能从state里，下标为j的状态，转移到下标为i的状态
                 head[i].push_back(j);
         }
     }
@@ -58,10 +61,11 @@ void pre() {
 void solve() {
     cin >> n >> k;
     pre();
-    f[0][0][0] = 1;
+    f[0][0][0] = 1;                   // 初始状态数为 1
     for (int i = 1; i <= n + 1; i++)  // n行转移，n+1行是为了好统计答案
         for (int j = 0; j <= k; j++)  // 目前使用的国王棋子数量
-            for (int a = 0; a < state.size(); a++)
+            for (int a = 0; a < state.size(); a++)  // 总共有a个合法状态
+                // 有b个合法状态可以跳到a
                 for (int b = 0; b < head[a].size(); b++) {
                     // 统计state[a]对应的国王个数
                     int c = cnt[state[a]];
