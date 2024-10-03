@@ -47,8 +47,10 @@ int cmp(LL a[], LL b[]) {
 // 打印当前大数
 void print_f(LL a[]) {
     int k = M - 1;
+    // 过滤前导零
     while (k && !a[k])
         k--;
+    // 输出
     while (k >= 0)
         cout << a[k--];
     cout << endl;
