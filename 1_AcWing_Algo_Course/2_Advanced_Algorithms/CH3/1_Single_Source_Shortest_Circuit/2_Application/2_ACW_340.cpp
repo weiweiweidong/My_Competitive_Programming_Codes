@@ -46,6 +46,7 @@ bool check(int bound) {
         }
     }
 
+    // 如果返回 true，说明此时 bound 太大了，要缩小
     return dist[n] <= k;
 }
 
@@ -60,7 +61,7 @@ void solve() {
         add(a, b, c), add(b, a, c);
     }
 
-    // 二分
+    // 二分：求最大值最小问题
     int l = 0, r = 1e6 + 1;
     while (l < r) {
         int mid = (l + r) / 2;
