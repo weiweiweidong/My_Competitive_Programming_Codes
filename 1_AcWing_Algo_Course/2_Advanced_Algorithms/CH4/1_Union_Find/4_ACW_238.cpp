@@ -36,7 +36,7 @@ void solve() {
             int pa = find(a), pb = find(b);
             if (pa != pb) {
                 d[pa] = sz[pb];  // pb 子树的大小就是 pa 到祖宗的距离
-                sz[pb] += sz[pa];  // pa 集合的尺寸加入 pb 中
+                sz[pb] += sz[pa];  // pa 集合的尺寸合并到 pb 中
                 p[pa] = pb;        // pb 成为 pa 的祖宗
             }
         }
