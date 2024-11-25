@@ -8,7 +8,7 @@ typedef pair<int, int> PII;
 const int N = 3e4 + 10;
 int T;
 int p[N];
-int sz[N];  // 集合的大小
+int sz[N];  // 存储以每个节点为根的子树的大小
 int d[N];   // x 到祖宗节点p[x]的距离
 
 int find(int x) {
@@ -35,7 +35,7 @@ void solve() {
         if (op == 'M') {
             int pa = find(a), pb = find(b);
             if (pa != pb) {
-                d[pa] = sz[pb];    // pb 的尺寸就是 pa 到祖宗的距离
+                d[pa] = sz[pb];  // pb 子树的大小就是 pa 到祖宗的距离
                 sz[pb] += sz[pa];  // pa 集合的尺寸加入 pb 中
                 p[pa] = pb;        // pb 成为 pa 的祖宗
             }
