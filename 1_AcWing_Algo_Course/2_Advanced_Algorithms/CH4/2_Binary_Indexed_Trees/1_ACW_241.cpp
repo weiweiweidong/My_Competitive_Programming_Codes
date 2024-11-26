@@ -1,9 +1,11 @@
+// Problem: https://www.acwing.com/problem/content/243/
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-const int N = 200010;
+const int N = 2e5 + 10;
 int n;
 int a[N];        // 原数组
 int tr[N];       // 树状数组
@@ -26,10 +28,10 @@ int sum(int x) {
     return res;
 }
 
-int main() {
-    scanf("%d", &n);
+void solve() {
+    cin >> n;
     for (int i = 1; i <= n; i++)
-        scanf("%d", &a[i]);
+        cin >> a[i];
 
     // 从左向右，统计每个位置左边比i小的数的个数，统计每个位置左边比i大的数的个数
     for (int i = 1; i <= n; i++) {
@@ -56,7 +58,12 @@ int main() {
         add(y, 1);
     }
 
-    printf("%lld %lld\n", res1, res2);
+    cout << res1 << " " << res2 << endl;
+}
 
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
     return 0;
 }
