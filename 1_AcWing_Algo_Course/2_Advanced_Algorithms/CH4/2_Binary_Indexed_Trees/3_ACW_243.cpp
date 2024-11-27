@@ -1,9 +1,11 @@
+// Problem: https://www.acwing.com/problem/content/244/
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-const int N = 100010;
+const int N = 1e5 + 10;
 int n, m;
 int a[N];
 LL tr1[N];  // 维护 b[i] 的前缀和
@@ -20,21 +22,21 @@ void add(LL tr[], int x, LL k) {
 
 LL sum(LL tr[], int x) {
     LL res = 0;
-    for (int i = x; i > 0; i -= lowbit(i))
+    for (int i = x; i; i -= lowbit(i))
         res += tr[i];
     return res;
 }
 
-// 计算a[]的前x项的和
+// 计算 a[] 的前 x 项和
 LL prefix_sum(int x) {
     return sum(tr1, x) * (x + 1) - sum(tr2, x);
 }
 
-int main() {
-    scanf("%d%d", &n, &m);
+void solve() {
+    cin >> n >> m;
     // 读入原数组
     for (int i = 1; i <= n; i++)
-        scanf("%d", &a[i]);
+        cin >> a[i];
     // 初始化树状数组 tr1 和 tr2
     for (int i = 1; i <= n; i++) {
         int b = a[i] - a[i - 1];
@@ -44,21 +46,25 @@ int main() {
 
     while (m--) {
         char op[2];
+        cin >> op;
         int l, r;
-        scanf("%s%d%d", op, &l, &r);
-        // 如果操作是 Q
-        if (*op == 'Q') {
+        cin >> l >> r;
+        // 查询操作：计算出整理后的前缀和
+        if (op[0] == 'Q')
             cout << prefix_sum(r) - prefix_sum(l - 1) << endl;
-        }
-        // 如果操作是 C
+        // 区间维护
         else {
             int d;
-            scanf("%d", &d);
-            // a[l] += d
+            cin >> d;
             add(tr1, l, d), add(tr2, l, l * d);
-            // a[r+1] -= d
             add(tr1, r + 1, -d), add(tr2, r + 1, (r + 1) * -d);
         }
     }
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
     return 0;
 }
