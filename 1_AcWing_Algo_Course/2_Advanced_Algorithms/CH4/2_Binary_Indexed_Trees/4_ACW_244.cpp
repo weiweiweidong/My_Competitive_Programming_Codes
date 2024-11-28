@@ -1,21 +1,26 @@
+// Problem: https://www.acwing.com/problem/content/245/
+
+// 树状数组 + 二分
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-const int N = 100010;
+const int N = 1e5 + 10;
 int n;
-int h[N];
-int ans[N];
-int tr[N];
+int h[N];    // 存原始数据
+int res[N];  // 存结果
+int tr[N];   // 树状数组
 
 int lowbit(int x) {
     return x & -x;
 }
+
 void add(int x, int k) {
     for (int i = x; i <= n; i += lowbit(i))
         tr[i] += k;
 }
+
 int sum(int x) {
     int res = 0;
     for (int i = x; i; i -= lowbit(i))
@@ -23,33 +28,44 @@ int sum(int x) {
     return res;
 }
 
-int main() {
+void solve() {
+    cin >> n;
     // 读入数据
-    scanf("%d", &n);
     for (int i = 2; i <= n; i++)
-        scanf("%d", &h[i]);
-    // 树状数组初始化，每个数都是1
+        cin >> h[i];
+    // 初始化树状数组
     for (int i = 1; i <= n; i++)
         add(i, 1);
-    // 从后往前开始找
+
+    // 从后往前遍历
     for (int i = n; i; i--) {
-        // 即：要找到剩下的身高中，第k小的数字
+        // 提取出排名
         int k = h[i] + 1;
+
+        // 二分：使得第一次大于等于k的最小的数字 x
         int l = 1, r = n;
-        // 找到最小的x，使得第一次大于等于k
         while (l < r) {
-            int mid = (l + r) >> 1;
+            int mid = (l + r) / 2;
             if (sum(mid) >= k)
                 r = mid;
             else
                 l = mid + 1;
         }
-        // 更新结果
-        ans[i] = r;
-        // 删掉这个数字
-        add(r, -1);
+
+        // 记录结果
+        res[i] = l;
+        // 树状数组删掉这个数字
+        add(l, -1);
     }
+
     // 按顺序输出
     for (int i = 1; i <= n; i++)
-        printf("%d\n", ans[i]);
+        cout << res[i] << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
 }
