@@ -1,100 +1,103 @@
-// Problem:https://www.acwing.com/problem/content/1277/
+// Problem: https://www.acwing.com/problem/content/1277/
 
+// 线段树 Segment Tree
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-const int N = 200010;
-
+const int N = 2e5 + 10;
 int m, p;
+// 线段树节点
 struct Node {
-    int l, r;
-    int v;  // 区间[l, r]中的最大值
-} tr[N * 4];
+    int l, r;  // 存储节点的左右区间
+    int v;     // // 区间[l, r]中的最大值
+} tr[N * 4];   // 开 4 倍 N 大小
 
-// 根据子节点，计算父节点（u是父节点的index）
+// 根据子节点，更新树状数组 u 节点的存储值 v
 void pushup(int u) {
-    // 父节点的最大值 = 两个自节点的最大值
-    tr[u].v = max(tr[u << 1].v, tr[u << 1 | 1].v);
+    // 左右两子树的最大值
+    tr[u].v = max(tr[u * 2].v, tr[u * 2 + 1].v);
 }
 
-// 从上往下构建
-// （u是线段树数组的index；此时没有赋值v，只是预先开辟了所有的线段树数组位置）
+// 构建线段树（只记录左右区间，没有记录存储值 v）
 void build(int u, int l, int r) {
-    // 初始化左右区间
     tr[u] = {l, r};
-    // 如果是叶节点，就直接返回
     if (l == r)
         return;
-    // 否则就更新左右子节点
-    int mid = (l + r) >> 1;
-    build(u << 1, l, mid), build(u << 1 | 1, mid + 1, r);
+    int mid = (l + r) / 2;
+    build(u * 2, l, mid), build(u * 2 + 1, mid + 1, r);
 }
 
 // 查询（u是线段树数组的index，l和r是想查的区间）
 int query(int u, int l, int r) {
-    // 树中节点，已经被完全包含在[l, r]中了
+    // 判断节点区间是否完全包含在查询区间内
     if (tr[u].l >= l && tr[u].r <= r)
         return tr[u].v;
-    // 获取区间中点
-    int mid = (tr[u].l + tr[u].r) >> 1;
+    // 如果不完全包含，就需要分割查询
+    int mid = (tr[u].l + tr[u].r) / 2;
     int v = 0;
-    // 判断和左边的交集
+    // 如果左边界在左子树区间内
     if (l <= mid)
-        v = query(u << 1, l, r);
-    // 判断和右边的交集
+        v = query(u * 2, l, r);
+    // 如果右边界在右子树区间内
     if (r > mid)
-        v = max(v, query(u << 1 | 1, l, r));
+        v = max(v, query(u * 2 + 1, l, r));
 
     return v;
 }
+
 // 修改操作
 // u：线段树数组的index
-// x：原数组的index
+// x：原数组的index（想要修改的位置）
 // v：变更后的值
 void modify(int u, int x, int v) {
-    // 如果已经是叶节点，就直接修改值
+    // 如果已经到叶节点了
     if (tr[u].l == x && tr[u].r == x)
         tr[u].v = v;
     else {
-        // 取中点
-        int mid = (tr[u].l + tr[u].r) >> 1;
-        // 找左边
+        // 线段树节点记录的区间中点
+        int mid = (tr[u].l + tr[u].r) / 2;
+        // 如果在节点的左子树：沿着左子树向下更新
         if (x <= mid)
-            modify(u << 1, x, v);
-        // 找右边
+            modify(u * 2, x, v);
+        // 如果在节点的右子树：沿着右子树向下更新
         else
-            modify(u << 1 | 1, x, v);
-        // 更新当前节点的信息（上面已经把子节点信息全更新完了）
+            modify(u * 2 + 1, x, v);
+        // 因为左或右子树的值被更新了，所以要更新u处的值
         pushup(u);
     }
 }
 
-int main() {
-    // n表示数组长度，last表示上一个query操作的结果
+void solve() {
+    // n 表示数组长度（即总区间的右端点），last 表示上个 query 操作的结果
     int n = 0, last = 0;
-    scanf("%d%d", &m, &p);
-    // 初始化线段树（从头开始构建）
-    // 线段树index起点为1，范围为[1,m]
+    cin >> m >> p;
+    // 初始化线段树。
+    // 线段数index 起点为 1，区间为[1,m]
+    // 总共有m个操作，最极端情况下是往线段树中插入m个数，所以取[1,m]可以覆盖所有
     build(1, 1, m);
 
     int x;
-    char op[2];
+    char op;
     while (m--) {
-        scanf("%s%d", op, &x);
-        // 查询操作（查询最后x个数的最大值）
-        if (*op == 'Q') {
-            // 从上往下找，最后x个数所在区间为[n-x+1,n]
+        cin >> op >> x;
+        // 查询操作
+        if (op == 'Q') {
+            // 查询最后x个数中最大的数是多少
             last = query(1, n - x + 1, n);
-            printf("%d\n", last);
-        }
-        // 插入操作（把n+1位置修改为 (x+last)%p 值）
-        else {
+            cout << last << endl;
+        } else {
+            // 在最后一个位置插入值
             modify(1, n + 1, (x + (LL)last) % p);
             n++;
         }
     }
+}
 
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
     return 0;
 }
