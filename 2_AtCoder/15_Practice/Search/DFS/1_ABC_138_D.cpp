@@ -1,5 +1,5 @@
 // Problem: https://atcoder.jp/contests/abc138/tasks/abc138_d
-
+// 2024-12-04
 /*
 简单的 DFS 应用。
 DFS 的时候，整张图每个节点只会被遍历一次，所以DFS 部分时间复杂度是O(n)。
