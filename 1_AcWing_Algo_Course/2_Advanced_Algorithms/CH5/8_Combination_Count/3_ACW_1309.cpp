@@ -51,7 +51,7 @@ void solve() {
     int res = 0;
     for (int i = 0; i <= k; i++) {
         res = (res + (LL)C(b, i) * P(a, i) % MOD * C(d, k - i) % MOD *
-                         P(a + c - i, k - i)) %
+                         P(a + c - i, k - i) % MOD) %
               MOD;
     }
 
