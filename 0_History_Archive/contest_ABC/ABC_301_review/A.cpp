@@ -1,31 +1,39 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <unordered_map>
 #include <math.h>
-#include <string.h>
-
-typedef long l;
-typedef long long ll;
+#include <algorithm>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <set>
+#include <stack>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 using namespace std;
 
-int main(){
-    int n;
-    string s;
-    cin >> n >> s;
+typedef long L;
+typedef long long LL;
+typedef pair<int, int> PII;
 
-    int a = 0 , t = 0;
-    for( int i = 0 ; i < n ; i++ ){
-        if( s[i] == 'T' ) t++;
-        else a++;
+int N;
+string S;
+int main() {
+    cin >> N >> S;
+    int a = 0, b = 0;
+    for (auto c : S) {
+        if (c == 'T')
+            a++;
+        else
+            b++;
+
+        if (a >= (N + 1) / 2) {
+            cout << "T" << endl;
+            return 0;
+        } else if (b >= (N + 1) / 2) {
+            cout << "A" << endl;
+            return 0;
+        }
     }
-    if( t > a ) cout << 'T' << endl;
-    else if( t < a ) cout << 'A' << endl;
-    else cout << char( 'T' + 'A' - s.back() ) << endl;
-
-    return 0;
 }

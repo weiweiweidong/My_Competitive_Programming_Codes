@@ -1,31 +1,39 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <unordered_map>
 #include <math.h>
-#include <string.h>
-
-typedef long l;
-typedef long long ll;
+#include <algorithm>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <set>
+#include <stack>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 using namespace std;
 
-int main(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for( int i = 0 ; i < n ; i++ ) cin >> a[i];
+typedef long L;
+typedef long long LL;
+typedef pair<int, int> PII;
 
-    for( int i = 1 ; i < a.size() ; i++ ){
-        if( a[i-1] + 1 < a[i] ) a.insert(a.begin()+i , a[i-1]+1);
-        if( a[i-1] - 1 > a[i] ) a.insert(a.begin()+i , a[i-1]-1);
+int main() {
+    int N;
+    cin >> N;
+    vector<int> A(N);
+    for (auto& x : A)
+        cin >> x;
+
+    for (int i = 1; i < N; i++) {
+        if (A[i - 1] > A[i]) {
+            for (int j = A[i - 1]; j > A[i]; j--) {
+                cout << j << " ";
+            }
+        } else {
+            for (int j = A[i - 1]; j < A[i]; j++) {
+                cout << j << " ";
+            }
+        }
     }
-
-    for( auto x : a) cout << x << ' ';
-    cout << endl;
-
-    return 0;
+    cout << A[N - 1] << endl;
 }
