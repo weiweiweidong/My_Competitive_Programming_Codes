@@ -1,9 +1,10 @@
 ---
-title: ABC 383 Summary
-date: 2024-12-08 10:02:12
+title: AtCoder Beginner Contest 383 Summary
+date: 2024-12-09 13:23:12
 tags:
   - Algorithm
   - Prgoramming Contest
+  - AtCoder
   - ABC
 mathjax: true
 ---
@@ -361,7 +362,7 @@ All input values are integers.
 
 题目解析：$f(x,y)$ 表示从 $x$ 走到 $y$ 的所有路径中，最小的路径权重。例如：
 
-![image-20241209225651829](http://pic-bed-joeyddong.top/uPic/2024-12-10/image-20241209225651829.png)
+![image-20241209225651829](./assets/image-20241209225651829.png)
 
 如上述例子，有 $f(1,7) = 5$。
 
@@ -377,7 +378,7 @@ All input values are integers.
 
 详细可参考下面的示例：
 
-![image-20241209233254630](http://pic-bed-joeyddong.top/uPic/2024-12-10/image-20241209233254630.jpg)
+![image-20241209233254630](./assets/image-20241209233254630.jpg)
 
 备注：最后实际上生成的图是“最小生成树”，算法类似于 Kruskal 算法。
 
