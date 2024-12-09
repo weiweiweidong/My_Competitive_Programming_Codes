@@ -8,15 +8,51 @@ tags:
 mathjax: true
 ---
 
-# A
+# **A - Humidifier 1**
 
-构造题。
+Problem：[A - Humidifier 1](https://atcoder.jp/contests/abc383/tasks/abc383_a)
 
-省略。
+模拟题。非常的简单。
+
+```c++
+// Problem:
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+void solve() {
+    int n;
+    cin >> n;
+
+    int res = 0, last_t = 0;
+    for (int i = 1; i <= n; i++) {
+        int t, v;
+        cin >> t >> v;
+
+        if (res)
+            res = max(res - (t - last_t), 0);
+        res += v;
+        last_t = t;
+    }
+
+    cout << res << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
 
 
 
-# B
+
+
+# **B - Humidifier 2**
 
 Problem：[B - Humidifier 2](https://atcoder.jp/contests/abc383/tasks/abc383_b)
 
@@ -85,13 +121,13 @@ int main() {
 
 
 
-# C
+# **C - Humidifier 3**
 
 Problem：[C - Humidifier 3](https://atcoder.jp/contests/abc383/tasks/abc383_c)
 
 图论题目。
 
-题目本质是在问每个格子到最近的 H 距离是多少。使用经典的“虚拟节点”方法转换为单源最短路问题。
+题目本质是在问每个格子到最近的 $H$ 距离是多少。使用经典的 “虚拟节点” 方法转换为单源最短路问题。我的答案里把 `1e6+5` 作为了虚拟节点。
 
 ```c++
 // Problem: https://atcoder.jp/contests/abc383/tasks/abc383_c
@@ -199,7 +235,7 @@ int main() {
 
 
 
-# D
+# **D - 9 Divisors**
 
 Problem：[D - 9 Divisors](https://atcoder.jp/contests/abc383/tasks/abc383_d)
 
@@ -211,10 +247,10 @@ Problem：[D - 9 Divisors](https://atcoder.jp/contests/abc383/tasks/abc383_d)
 >
 > ​	一个数能被拆成若干个质数乘积的形式 $N=P_{1}^{a_1}P_{2}^{a_2}\dots P_{k}^{a_k}$，那么 N 的约数个数为 $(a_1+1)(a_2+1)\dots (a_k+1)$。
 
-按照上面的格式，9 只能被拆分为 $1\times9$ 或者 $3\times 3$ 两种可能性。
+按照上面定理的格式，9 只能被拆分为 $1\times9$ 或者 $3\times 3$ 两种可能性。
 
-	- $1\times9$ ：表明数字 $N = P^8$，是某一个质数的 8 次方
-	- $3\times 3$ ：表示数字 $N = P_i^2 \times P_j^2$，是某两个质数的平方和
+- $1\times9$ ：表明数字 $N = P^8$，是某一个质数的 8 次方
+- $3\times 3$ ：表示数字 $N = P_i^2 \times P_j^2$，是某两个质数的平方和
 
 思路：
 
@@ -291,7 +327,161 @@ int main() {
 }
 ```
 
-# E
+# E - Sum of Max Matching
 
 Problem：[E - Sum of Max Matching](https://atcoder.jp/contests/abc383/tasks/abc383_e)
+
+## 题目：
+
+给定一个$N$ 节点 $M$ 条边，带正边权的简单无向图。对于从 $x$ 到 $y$ 的一条路径，路径权重为该路径经过的所有边的最大值。令 $f(x,y)$ 是从 $x$ 走到 $y$ 的所有路径的路径权重的最小值。
+
+给定两个长度为 $K$ 的序列 $A$ 和 $B$，$B$ 可以自由排序，求 $\displaystyle \sum_{i=1}^{K} f(A_i, B_i)$ 的最小值。
+
+## 关键数据范围：
+
+$2 \leq N \leq 2 \times 10^5$ 
+
+$N-1 \leq M \leq \min(\frac{N \times (N-1)}{2},2 \times 10^5)$ 
+
+$1 \leq K \leq N$
+
+$1 \leq u_i<v_i \leq N$ $(1 \leq i \leq M)$ 
+
+$1 \leq w_i \leq 10^9$
+
+$1 \leq A_i,B_i \leq N$ $(1 \leq i \leq K)$
+
+The given graph is simple and connected.
+
+All input values are integers.
+
+## 思路：
+
+这道题非常类似于 NOPI2013提高组的题目：[506. 货车运输 - AcWing题库](https://www.acwing.com/problem/content/description/508/)
+
+题目解析：$f(x,y)$ 表示从 $x$ 走到 $y$ 的所有路径中，最小的路径权重。例如：
+
+![image-20241209225651829](http://pic-bed-joeyddong.top/uPic/2024-12-10/image-20241209225651829.png)
+
+如上述例子，有 $f(1,7) = 5$。
+
+**直觉思路：二分**
+
+对于求类似 “最大值的最小值” 类型的题目，基本都可以使用二分思路来解决。
+
+对于一个 $mid$ 值，将图中所有边权大于 $mid$ 的边全部删掉，看剩下的图的连通性。
+
+**本题思路：并查集+贪心**
+
+如果我们将所有的边按照边权升序排列，一条边一条边的添加进图。我们希望 $f$ 的值尽可能的小，意味着需要 A 和 B 中的点尽可能早的进行匹配。那么每次加入一条边，就有可能会合并两个连通块，那么新加入的这条边的边权，一定是两个连通块之间 $f$ 值的最小值。如果匹配成功了 $x$ 对，那么就会产生 $xw$ 的 $f$ 值。
+
+详细可参考下面的示例：
+
+![image-20241209233254630](http://pic-bed-joeyddong.top/uPic/2024-12-10/image-20241209233254630.jpg)
+
+备注：最后实际上生成的图是“最小生成树”，算法类似于 Kruskal 算法。
+
+```c++
+// Problem: https://atcoder.jp/contests/abc383/tasks/abc383_e
+
+// 并查集 + 贪心
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+const int N = 2e5 + 10;
+
+struct Edge {
+    int w;
+    int u, v;
+} e[N];
+
+bool cmp(Edge& a, Edge& b) {
+    return a.w < b.w ? true : false;
+}
+
+int A[N], B[N];
+int cnta[N], cntb[N];  // 连通块中，未匹配的A和B各个元素的数目
+int p[N];              // 并查集数组，存储每个元素的祖宗元素
+int n, m, k;
+
+// 找到 x 的祖宗节点
+int find(int x) {
+    if (p[x] != x)
+        p[x] = find(p[x]);
+    return p[x];
+}
+
+// 计算x和y点相连，能匹配成功多少对点
+int merge(int x, int y) {
+    // 求 x 和 y 的根节点
+    int px = find(x), py = find(y);
+    // 如果相同，说明他们已经在一个连通块了，不能再匹配了
+    if (px == py)
+        return 0;
+    // 把 x 并入 y 中
+    p[px] = py;
+    // 将 px 连通块的 AB 计数加到 py 上
+    cnta[py] += cnta[px];
+    cntb[py] += cntb[px];
+
+    // 合并完成后，看看在 fy 为根的连通块中有多少对可以A与B相匹配
+    int tmp = min(cnta[py], cntb[py]);
+
+    // 匹配完成，把匹配掉的A和B减掉。（因为已经成对了，不是未匹配的状态）
+    cnta[py] -= tmp;
+    cntb[py] -= tmp;
+
+    // 返回这一次匹配成功了多少个点
+    return tmp;
+}
+
+void solve() {
+    cin >> n >> m >> k;
+    // 读入所有的边
+    for (int i = 0; i < m; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        e[i] = {c, a, b};
+    }
+    // 储存 A 和 B
+    for (int i = 0; i < k; i++)
+        cin >> A[i];
+    for (int i = 0; i < k; i++)
+        cin >> B[i];
+    // 并查集初始化
+    for (int i = 1; i <= n; i++)
+        p[i] = i;
+    // 按照边权升序排列
+    sort(e, e + m, cmp);
+
+    // 预处理A和B中，每个元素的数量，存在cnta和cntb中
+    for (int i = 0; i < k; i++) {
+        cnta[A[i]]++;
+        cntb[B[i]]++;
+    }
+
+    // 遍历每一条边
+    LL res = 0;
+    for (int i = 0; i < m; i++) {
+        // 看加入i边后，能匹配多少对
+        res += merge(e[i].u, e[i].v) * e[i].w;
+    }
+
+    // 输出结果
+    cout << res << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+# **F - Diversity**
+
+Problem：[F - Diversity](https://atcoder.jp/contests/abc383/tasks/abc383_f)
 
