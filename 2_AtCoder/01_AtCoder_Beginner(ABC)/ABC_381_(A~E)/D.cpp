@@ -1,5 +1,6 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc381/tasks/abc381_d
 
+// 双指针 / 滑动窗口
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;

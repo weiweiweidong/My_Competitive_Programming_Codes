@@ -1,5 +1,6 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc381/tasks/abc381_c
 
+// 双指针
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
