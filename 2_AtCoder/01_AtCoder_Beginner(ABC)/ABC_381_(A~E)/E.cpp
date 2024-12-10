@@ -7,13 +7,15 @@ typedef long long LL;
 typedef pair<int, int> PII;
 
 const int N = 2e5;
-int a[N], b[N], c[N];  // 分别记录 '1' '/' '2' 的前缀和（出现次数）
+int a[N], c[N];  // 分别记录 '1' '2' 的前缀和（出现次数）
 int n, q;
 string s;
 int v[N];  // 存储每个/的位置
 
 bool check(int mid, int L, int R) {
+    // 计算 mid 左边 1 出现的次数
     int num_1 = a[mid] - a[L - 1];
+    // 计算 mid 右边 2 出现的次数
     int num_2 = c[R] - c[mid];
     return num_1 >= num_2;
 }
@@ -25,11 +27,10 @@ void solve() {
     // 预处理前缀和数组
     int cnt = 0;
     for (int i = 1; i <= n; i++) {
-        a[i] = a[i - 1], b[i] = b[i - 1], c[i] = c[i - 1];
+        a[i] = a[i - 1], c[i] = c[i - 1];
         if (s[i] == '1')
             a[i]++;
         if (s[i] == '/') {
-            b[i]++;
             v[cnt++] = i;
         }
         if (s[i] == '2')
