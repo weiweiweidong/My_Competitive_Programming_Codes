@@ -1,0 +1,40 @@
+### 🌟Today's Virtual Atcoder Beginner Contest (2024-12-09)
+
+(Notes: The problems in this contest were curated based on their level of difficulty and listed from Atcoder's existing problems)
+
+| #   | Problem                                                       |                                 Rate                                 |       Kyu       | Difficulty | Contest                                                                  |
+| --- | ------------------------------------------------------------- | :------------------------------------------------------------------: | :-------------: | :--------: | ------------------------------------------------------------------------ |
+| A   | [ABC063_B](https://atcoder.jp/contests/abc063/tasks/abc063_b) |    ![Rate](https://img.shields.io/badge/9%20Kyu---140-lightgrey)     |      9 Kyu      |    -140    | [https://atcoder.jp/contests/abc063](https://atcoder.jp/contests/abc063) |
+| B   | [ABC328_C](https://atcoder.jp/contests/abc328/tasks/abc328_c) |     ![Rate](https://img.shields.io/badge/9%20Kyu-189-lightgrey)      |      9 Kyu      |    189     | [https://atcoder.jp/contests/abc328](https://atcoder.jp/contests/abc328) |
+| C   | [ABC221_C](https://atcoder.jp/contests/abc221/tasks/abc221_c) |     ![Rate](https://img.shields.io/badge/9%20Kyu-378-lightgrey)      |      9 Kyu      |    378     | [https://atcoder.jp/contests/abc221](https://atcoder.jp/contests/abc221) |
+| D   | [ABC187_D](https://atcoder.jp/contests/abc187/tasks/abc187_d) |      ![Rate](https://img.shields.io/badge/7%20Kyu-650-critical)      |      7 Kyu      |    650     | [https://atcoder.jp/contests/abc187](https://atcoder.jp/contests/abc187) |
+| E   | [ABC356_E](https://atcoder.jp/contests/abc356/tasks/abc356_e) |       ![Rate](https://img.shields.io/badge/3%20Kyu-1506-green)       |      3 Kyu      |    1506    | [https://atcoder.jp/contests/abc356](https://atcoder.jp/contests/abc356) |
+| F   | [AGC021_B](https://atcoder.jp/contests/agc021/tasks/agc021_b) |      ![Rate](https://img.shields.io/badge/1%20Dan-2130-yellow)       |      1 Dan      |    2130    | [https://atcoder.jp/contests/agc021](https://atcoder.jp/contests/agc021) |
+| G   | [ABC345_E](https://atcoder.jp/contests/abc345/tasks/abc345_e) |      ![Rate](https://img.shields.io/badge/2%20Dan-2356-yellow)       |      2 Dan      |    2356    | [https://atcoder.jp/contests/abc345](https://atcoder.jp/contests/abc345) |
+| H   | [AGC069_D](https://atcoder.jp/contests/agc069/tasks/agc069_d) | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-3346-red) | 5 Dan or higher |    3346    | [https://atcoder.jp/contests/agc069](https://atcoder.jp/contests/agc069) |
+
+### 🌟Today's Virtual Atcoder Regular Contest (2024-12-09)
+
+(Notes: The problems in this contest were curated based on their level of difficulty and listed from Atcoder's existing problems)
+
+| #   | Problem                                                       |                                 Rate                                 |       Kyu       | Difficulty | Contest                                                                  |
+| --- | ------------------------------------------------------------- | :------------------------------------------------------------------: | :-------------: | :--------: | ------------------------------------------------------------------------ |
+| A   | [ABC019_1](https://atcoder.jp/contests/abc019/tasks/abc019_1) |     ![Rate](https://img.shields.io/badge/9%20Kyu---22-lightgrey)     |      9 Kyu      |    -22     | [https://atcoder.jp/contests/abc019](https://atcoder.jp/contests/abc019) |
+| B   | [ABC215_D](https://atcoder.jp/contests/abc215/tasks/abc215_d) |      ![Rate](https://img.shields.io/badge/7%20Kyu-736-critical)      |      7 Kyu      |    736     | [https://atcoder.jp/contests/abc215](https://atcoder.jp/contests/abc215) |
+| C   | [ARC123_C](https://atcoder.jp/contests/arc123/tasks/arc123_c) |       ![Rate](https://img.shields.io/badge/1%20Kyu-1827-blue)        |      1 Kyu      |    1827    | [https://atcoder.jp/contests/arc123](https://atcoder.jp/contests/arc123) |
+| D   | [ABC231_H](https://atcoder.jp/contests/abc231/tasks/abc231_h) |      ![Rate](https://img.shields.io/badge/4%20Dan-2681-orange)       |      4 Dan      |    2681    | [https://atcoder.jp/contests/abc231](https://atcoder.jp/contests/abc231) |
+| E   | [AGC055_C](https://atcoder.jp/contests/agc055/tasks/agc055_c) | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-2803-red) | 5 Dan or higher |    2803    | [https://atcoder.jp/contests/agc055](https://atcoder.jp/contests/agc055) |
+| F   | [AGC062_E](https://atcoder.jp/contests/agc062/tasks/agc062_e) | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-4233-red) | 5 Dan or higher |    4233    | [https://atcoder.jp/contests/agc062](https://atcoder.jp/contests/agc062) |
+
+### 🌟Today's Virtual Atcoder Grand Contest (2024-12-09)
+
+(Notes: The problems in this contest were curated based on their level of difficulty and listed from Atcoder's existing problems)
+
+| #   | Problem                                                         |                                 Rate                                 |       Kyu       | Difficulty | Contest                                                                  |
+| --- | --------------------------------------------------------------- | :------------------------------------------------------------------: | :-------------: | :--------: | ------------------------------------------------------------------------ |
+| A   | [ARC065_A](https://atcoder.jp/contests/arc065/tasks/arc065_a)   |    ![Rate](https://img.shields.io/badge/6%20Kyu-930-brightgreen)     |      6 Kyu      |    930     | [https://atcoder.jp/contests/arc065](https://atcoder.jp/contests/arc065) |
+| B   | [ABC291_H](https://atcoder.jp/contests/abc291/tasks/abc291_h)   |      ![Rate](https://img.shields.io/badge/1%20Dan-2097-yellow)       |      1 Dan      |    2097    | [https://atcoder.jp/contests/abc291](https://atcoder.jp/contests/abc291) |
+| C   | [ARC111_E](https://atcoder.jp/contests/arc111/tasks/arc111_e)   |      ![Rate](https://img.shields.io/badge/3%20Dan-2541-orange)       |      3 Dan      |    2541    | [https://atcoder.jp/contests/arc111](https://atcoder.jp/contests/arc111) |
+| D   | [AGC009_E](https://atcoder.jp/contests/agc009/tasks/agc009_e)   | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-3428-red) | 5 Dan or higher |    3428    | [https://atcoder.jp/contests/agc009](https://atcoder.jp/contests/agc009) |
+| E   | [AGC028_F2](https://atcoder.jp/contests/agc028/tasks/agc028_f2) | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-3778-red) | 5 Dan or higher |    3778    | [https://atcoder.jp/contests/agc028](https://atcoder.jp/contests/agc028) |
+| F   | [ABC383_G](https://atcoder.jp/contests/abc383/tasks/abc383_g)   | ![Rate](https://img.shields.io/badge/5%20Dan%20or%20higher-3026-red) | 5 Dan or higher |    3026    | [https://atcoder.jp/contests/abc383](https://atcoder.jp/contests/abc383) |
