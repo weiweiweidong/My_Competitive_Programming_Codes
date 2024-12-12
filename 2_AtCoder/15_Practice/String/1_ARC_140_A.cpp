@@ -24,7 +24,7 @@ typedef pair<int, int> PII;
 const int N = 1e5 + 10;
 string S;
 int n, k;
-int s[30];
+int cnt[30];  // 存储每个字母的出现次数
 
 void solve() {
     cin >> n >> k >> S;
@@ -39,16 +39,19 @@ void solve() {
             // 遍历子串的每个字符
             for (int i = 0; i < len; i++) {
                 // 记录字母出现次数的 s 数组重置
-                memset(s, 0, sizeof s);
+                memset(cnt, 0, sizeof cnt);
+                // 记录当前列中，字幕出现最多的次数
+                int max_cnt = -1;
                 // 计算这一列各个字母的出现次数
-                int max_x = -1;
                 for (int j = 0; j < c; j++) {
                     char x = S[i + j * len];
-                    s[x - 'a']++;
-                    max_x = max(max_x, s[x - 'a']);
+                    cnt[x - 'a']++;
+                    max_cnt = max(max_cnt, cnt[x - 'a']);
                 }
-                res += c - max_x;
+                res += c - max_cnt;
             }
+
+            // 第一次出现比 k 小的时候，肯定是最短的
             if (res <= k) {
                 cout << len << endl;
                 break;
