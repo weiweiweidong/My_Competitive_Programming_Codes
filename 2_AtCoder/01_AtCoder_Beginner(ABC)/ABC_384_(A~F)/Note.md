@@ -429,7 +429,7 @@ $1\le A_i\le 10^7$
 
 根据上面的思路，于是问题就转变为：如何快速的求出 $d_k$ 的值？
 
-我们可以知道：$\sum_{\substack{1 \leq i \leq j \leq N \\ A_i+aj \equiv 0 (\bmod 1^k)}} (A_i+A_j)$ ，如果直接双层遍历，时间复杂度是 $O(n^2)$ ，显然不行。
+我们可以知道：$\sum_{\substack{1 \leq i \leq j \leq N \\ A_i+A_j \equiv 0 (\bmod 2^k)}} (A_i+A_j)$ ，如果直接双层遍历，时间复杂度是 $O(n^2)$ ，显然不行。
 
 技巧：同余条件 $A_i+A_j \equiv 0(\bmod 2^k)$ 等价于 $A_j \equiv -A_i(\bmod 2^k)$ 也就等价于 $A_j \equiv (2^k - (A_i \bmod 2^k)) \bmod 2^k$ 。
 
