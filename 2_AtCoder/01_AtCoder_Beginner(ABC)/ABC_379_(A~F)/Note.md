@@ -104,7 +104,7 @@ $1 \leq A_i \leq 2 \times 10^{9}$ $(1 \leq i \leq M)$
 
 ## 思路：
 
-这道题思路是比较抽象的。
+这道题思路有些抽象。
 
 1. 我们希望通过若干次操作，使每个格子中都恰好有 $1$ 个石子。
 
@@ -131,6 +131,8 @@ $1 \leq A_i \leq 2 \times 10^{9}$ $(1 \leq i \leq M)$
 ​	因此为了从初始位置和变成最终位置和，需要的操作次数是：$\frac{N(N+1)}{2}-\displaystyle \sum_{i=1}^{M}X_i \times A_i $
 
 总时间复杂度为 $O(m\log m + m)$，前半部分是排序的复杂度，后半部分是从头到后遍历一次。
+
+备注：为什么会引入位置和这个概念呢？
 
 综上思路，代码如下：
 
@@ -393,3 +395,109 @@ int main() {
 # **F - Buildings 2**
 
 Problem：[F - Buildings 2](https://atcoder.jp/contests/abc379/tasks/abc379_f)
+
+单调栈 + 二分
+
+## 题目：
+
+有编号 $1\sim N$ 的 $N$ 栋建筑，分别有不同的高度 $H_i$。
+
+对于整数对 $(i,j)$，如果 $i$ 和 $j$ 之间，没有比 $j$ 高的建筑，那么可以从建筑 $i$ 看到建筑 $j$。
+
+给定 $Q$ 个查询，每个查询中给定一个整数对 $(L_i,R_i)$，求出 $R_i$ 后面，能同时被 $L_i$ 和 $R_i$ 都看到的建筑物的数量。
+
+## 约束条件：
+
+$2 \leq N \leq 2 \times 10^5$
+
+$1 \leq Q \leq 2 \times 10^5$
+
+$1 \leq l_i < r_i \leq N$
+
+## 思路：
+
+（**备注：本题我还没有弄懂，就暂时先把代码存起来！**）
+
+题目要求，如果 R 后面的一栋楼 x，需要同时满足下面两点：
+
+- 从 L_i 能看到 x
+- 从 R_i 能看到 x
+
+本题是“可见楼”问题。许多“可见楼” 问题都可以用单调栈（Monotonic Stack）来做快速处理。
+
+**TODO**
+
+```c++
+// Problem: https://atcoder.jp/contests/abc379/tasks/abc379_f
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+const int N = 1e6 + 10;
+
+int n, q;
+int a[N];     // 存放楼的高度
+int s[N], t;  // s[] 用作单调栈, t 表示栈的大小(或当前栈顶位置)
+int ans[N];   // 存储最终结果
+vector<PII> query[N];  // 存储所有左端点为i的查询
+
+void solve() {
+    // 读入数据
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++)
+        cin >> a[i];
+    // 读入查询
+    for (int i = 1; i <= q; i++) {
+        int l, r;
+        cin >> l >> r;
+        /*
+        这里的存储方式很技巧：
+            index：查询的左端点
+            value：pair 存储查询的右端点 和 查询编号
+        */
+        query[l].push_back({r, i});
+    }
+
+    // 从后往前看每一栋楼
+    for (int i = n; i > 0; i--) {
+        // 取出来左端点为 i 的所有查询
+        for (auto p : query[i]) {
+            // 在单调栈 s 里二分，找到大于 r 的最小值
+            int L = 1, R = t;
+            while (L < R) {
+                int mid = (L + R + 1) / 2;
+                if (s[mid] > p.first)
+                    L = mid;
+                else
+                    R = mid - 1;
+            }
+
+            // 说明无解
+            if (s[L] <= p.first)
+                ans[p.second] = 0;
+            // L 就是结果
+            else
+                ans[p.second] = L;
+        }
+
+        while (t && a[s[t]] < a[i])
+            t--;
+        s[++t] = i;
+    }
+
+    for (int i = 1; i <= q; i++)
+        cout << ans[i] << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+
+
