@@ -52,8 +52,6 @@ Problem：[B - Santa Claus 1](https://atcoder.jp/contests/abc385/tasks/abc385_b)
 
 模拟题。
 
-省略。
-
 ```c++
 // Problem: https://atcoder.jp/contests/abc385/tasks/abc385_b
 
@@ -267,7 +265,9 @@ LL c;    // 临时变量，记录移动距离
 //
 void run(LL x, LL y, LL u, LL v, Map& i, Map& j) {
     // 判断点的位置是否合法
-    if (!(!i[x].empty() && fabs(x) <= 1e9 && fabs(y) <= 1e9))
+    if (i[x].empty())
+        return;
+    if (abs(x) > 1e9 || abs(y) > 1e9)
         return;
 
     temp.clear();
@@ -321,4 +321,199 @@ int main() {
     return 0;
 }
 ```
+
+# **E - Snowflake Tree**
+
+Problem：[E - Snowflake Tree](https://atcoder.jp/contests/abc385/tasks/abc385_e)
+
+贪心
+
+## 题目：
+
+定义“雪花树”：
+
+- 整数 x 与 y
+- 选中一个中心点
+- 中心点向外连接 x 个节点，作为中间层
+- 中间层的每个节点，各向外连接 y 个节点，作为最外层
+
+例如：x=4，y=2 的情况为：
+
+<img src="./assets/b836ca95b1add288731cbe63816da3b1.png" alt="img" style="zoom:67%;" />
+
+给定一个1~N 共 N 个节点的树 T，有 N-1 条边。
+
+若删除部分节点能让这棵树变成“雪花树”，输出最少删除多少个节点。
+
+## 约束条件：
+
+$3 \leq N \leq 3 \times 10^5$
+
+$1 \leq u_i < v_i \leq N$
+
+## 思路：
+
+我们很容易发现，对于一棵 $(x,y)$ 的 “雪花树”，它所含有的节点数肯定为 $1 + x + x \times y = 1 + x \times (y+1)$，表示的含义是：中心有 1 个节点，周围有 x 个节点，最外侧有 $x\times y$ 个节点。
+
+也就意味着，对于 N 个节点的树，如果能确定下来“雪花树”的尺寸为 $1+x(y+1)$，那么被删掉的节点数就是 $N - (1+x(y+1))$。
+
+问题就转化为了：对于一个中心点，如何求出它的 “雪花树”？使用贪心的思想。
+
+使用下图举例：
+
+<img src="./assets/image-20241226171620006.png" alt="image-20241226171620006" style="zoom:50%;" />
+
+我们假设有上面的这棵树。确定中心点 M 后，我们就可以知道中心点周围有多少个点。根据度数，实际就可以知道再向外最多扩展多少个点。$(y+1)$ 刚好就是扩展点的度数。
+
+我们将所有的点按照度数大小降序排列。将会依次遍历 EACBD 几个点。
+
+- 先看 E 点：E 点向外最多扩展 6 个节点，意味着此时生成的 “雪花树” 大小为 $(1,6) = 1+1(6+1)=8$
+- 再看 A 点：A 点向外最多扩展 5 个节点，意味着此时生成的 “雪花树” 大小为 $(2,5) = 1+2(5+1) = 13$
+
+- 再看 C 点：C 点向外最多扩展 4 个节点，意味着此时生成的 “雪花树” 大小为 $(3 , 4) = 1+3(4+1) = 16$
+
+​	……
+
+通过遍历，我们实际就可以知道能够生成的最大的 “雪花树” 的尺寸了，相应的，也就知道最少删除多少节点，就能生成该 “雪花树” 了。
+
+时间复杂度为 $O(n\log n)$。最大的瓶颈是排序部分。
+
+### 写法 1：数组存图
+
+使用数组来存储图（这个写法稍微麻烦一点，但是比 vector 快）
+
+注意：这里会遇到一个坑：
+
+​	如果使用 memset 重置 d 数组，有 $O(N)$ 的时间复杂度，会导致程序 TLE。但实际上用 cnt 维护 d 的长度，不用重置 d 数组也没有关系。
+
+```c++
+// Problem: https://atcoder.jp/contests/abc385/tasks/abc385_e
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+const int N = 3e5 + 10, M = 6e5 + 10;
+int h[N], e[M], ne[M], idx;  // 存储图
+int deg[N];                  // 存储所有节点的度数
+int d[N], cnt;               // 存储中心点周围点的度数
+int n;
+
+// 加边
+void add(int a, int b) {
+    e[idx] = b;
+    ne[idx] = h[a];
+    h[a] = idx;
+    idx++;
+}
+
+void solve() {
+    // h 数组初始化
+    memset(h, -1, sizeof h);
+
+    // 读入边数据，建边，同时计算各个点的度数
+    cin >> n;
+    for (int i = 0, a, b; i < n - 1; i++) {
+        cin >> a >> b;
+        add(a, b), add(b, a);
+        deg[a]++, deg[b]++;
+    }
+
+    int res = n;
+    // 遍历每个点作为中心点
+    for (int now = 1; now <= n; now++) {
+        /*
+            注意：这里有个坑。照理说 d 数组每次都应该清空再用。
+            但是 memset d 重置为 0 要 O(N) 的时间复杂度。
+            这里重置 d 的话，就会超时，程序 TLE
+            实际上使用 cnt 来维护 d 的长度，不用重置也可以。
+        */
+        // memset(d, 0, sizeof d);
+        cnt = 0;
+        for (int j = h[now]; j != -1; j = ne[j]) {
+            int next = e[j];       // 获取 now 周围的点
+            d[cnt++] = deg[next];  // 记录点的度数
+        }
+
+        sort(d, d + cnt, greater<int>());  // 降序排列
+
+        // 分别计算“雪花树”的尺寸，更新最少删除点的值
+        for (int i = 1; i <= cnt; i++) {
+            int tmp = 1 + i * d[i - 1];
+            res = min(res, n - tmp);
+        }
+    }
+
+    // 输出结果
+    cout << res << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+### 写法 2：vector 存图
+
+使用 vector 存储图。虽然略微慢一点，但是很好写。
+
+```c++
+// Problem: https://atcoder.jp/contests/abc385/tasks/abc385_e
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+int n, a, b;
+
+void solve() {
+    cin >> n;
+
+    vector<vector<int>> tree(n);
+    vector<int> deg(n, 0);
+
+    for (int i = 0; i < n - 1; i++) {
+        cin >> a >> b;
+        a--, b--;
+
+        tree[a].push_back(b);
+        tree[b].push_back(a);
+
+        deg[a]++;
+        deg[b]++;
+    }
+
+    int res = n;
+    // 遍历每个节点
+    for (int v = 0; v < n; v++) {
+        vector<int> d;
+        // 获取和 v 相连的点的度数
+        for (auto to : tree[v])
+            d.push_back(deg[to]);
+        // 按照度数降序排列
+        sort(d.begin(), d.end(), greater<int>());
+
+        for (int i = 1; i <= d.size(); i++) {
+            int num = d[i - 1] * i + 1;
+            res = min(res, n - num);
+        }
+    }
+
+    cout << res << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+
 

@@ -18,7 +18,9 @@ LL c;    // 临时变量，记录移动距离
 //
 void run(LL x, LL y, LL u, LL v, Map& i, Map& j) {
     // 判断点的位置是否合法
-    if (!(!i[x].empty() && fabs(x) <= 1e9 && fabs(y) <= 1e9))
+    if (i[x].empty())
+        return;
+    if (abs(x) > 1e9 || abs(y) > 1e9)
         return;
 
     temp.clear();
