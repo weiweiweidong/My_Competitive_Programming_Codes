@@ -1,19 +1,16 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc377/tasks/abc377_a
 
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-int v[26];
+string s;
 
 void solve() {
-    string S;
-    cin >> S;
-    for (auto x : S)
-        v[x - 'A']++;
-
-    if (v[0] == 1 && v[1] == 1 && v[2] == 1)
+    cin >> s;
+    sort(s.begin(), s.end());
+    if (s == "ABC")
         cout << "Yes" << endl;
     else
         cout << "No" << endl;
