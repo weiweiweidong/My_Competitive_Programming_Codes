@@ -292,7 +292,7 @@ int main() {
 
 Problem：[E - Maximize XOR](https://atcoder.jp/contests/abc386/tasks/abc386_e)
 
-DFS
+DFS + 优化
 
 ## 题目：
 
@@ -416,6 +416,8 @@ int main() {
 
 Problem：[F - Operate K](https://atcoder.jp/contests/abc386/tasks/abc386_f)
 
+最短编辑距离 + 带状 DP
+
 ## 题目：
 
 有三种操作：
@@ -451,13 +453,121 @@ $$f[i][j] = min(f[i-1][j]+1 , f[i][j-1]+1 , f[i-1][j-1]+c)$$
 其中：
 
 - $f[i-1][j]+1$ ：表示删除 S 的一个字符
-- $f[i][j-1]+1$ ：表示给 S 插入一个字符
+- $f[i][j-1]+1$ ：表示给 S 插入一个字符（或者说给 T 删去一个字符）
 - $f[i-1][j-1] + c$：表示“替换”或“匹配”。如果 $S_i=T_j$，则无需替换，$c=0$；否则 $c=1$
 
-总时间复杂度为：$O(|S||T|)$
+总时间复杂度为：$O(|S| \times |T|)$
 
-### 本题的优化思路：
+### 本题的优化思路：带状区域计算 DP
 
 如果按照标准做法，那本题的时间复杂度是 $O(5\times 10^5 \times 5 \times 10^5)$，显然会 TLE。
 
-但是本题规定了最大操作数不超过 K（不超过 20 次操作）
+但是本题规定了最大操作数不超过 $K$（不超过 20 次操作），这个约束条件就带来了优化空间。
+
+即：只对“有希望编辑距离不超过 $K$” 的位置进行 DP 计算。其他位置将会直接认为距离非常大（用 ∞ 表示），从而剪枝掉大量不必要的计算。
+
+如何做？
+
+在计算 $f[i][j]$ 的时候，如果 $|i-j|$ 的差距很大，意味着 $S$ 比 $T$ 短或长很多。如果要将 $S$ 变得和 $T$ 完全相同，则操作次数至少要大于 $K$。此时就可以将 $|i-j|$ 超过 $K$ 的区域直接视为 +∞，不再计算。
+
+具体做法：
+
+- 只让 $j$ 在 $[i-K, i+K]$ 的范围内活动
+- 超出范围的 $f[i][j]$ 直接置为 +∞
+
+这样就将原本 $O(|S|\times |T|)$ 的时间复杂度压缩到 $O((|S|+|T|)\times K)$ 
+
+### 注意点：
+
+习惯上可能直接就把 f 数组声明为 $f[N][N]$ 大小。但是本题中 $N$ 最大为 `5e5`，此时开出的数组空间为：`5e5 * 5e5 * sizeof(int)` 大小的内存。对于 `int` 类型（假设为 4 字节大小），这个数组将会消耗 `1e12 byte = 1000GB` 的空间，显然是不现实的。如果直接声明这么大的数组，会报 `bus error` 错误。
+
+而且我们实际上只使用了中间很小的一部分，绝大多数的空间都是用不上的。所以使用偏置换算的方法即可。
+
+```c++
+// Problem: https://atcoder.jp/contests/abc386/tasks/abc386_f
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+const int N = 5e5 + 10;
+
+string S, T;
+int K;
+int f[N][60];
+
+int get_dp(int i, int j) {
+    if (abs(i - j) > K)
+        return 0x3f3f3f3f;
+    // 偏置
+    return f[i][j - i + 30];
+}
+
+void solve() {
+    cin >> K >> S >> T;
+    int slen = S.size(), tlen = T.size();
+
+    S = " " + S;
+    T = " " + T;
+
+    // f 数组初始化为正无穷
+    memset(f, 0x3f, sizeof f);
+
+    /* 设置初始边界 */
+    // 对应原来的 f[0][0]：即将空串转化为空串需要 0 步操作
+    f[0][30] = 0;
+    // 将空串变成长度为 i 的串，需要 i 步插入操作
+    for (int i = 1; i <= K; i++)
+        f[0][30 + i] = i;
+    // 将长度为 i 的串变成空串，需要 i 步删除操作
+    for (int i = 1; i <= K; i++)
+        f[i][30 - i] = i;
+
+    /* DP */
+    // 遍历 S 的每一位
+    for (int i = 1; i <= slen; i++) {
+        // 遍历偏置
+        for (int x = 0; x < 60; x++) {
+            // 还原出真正的 j
+            /*
+                原理：j 只能在[i-30,i+30]范围内，所以下界 j>=i-30
+                这里加入了偏置 x 去掉了等号
+                即 j = i - 30 + x
+            */
+            int j = i - 30 + x;
+            // 如果 j 超出了范围
+            if (j <= 0 || j > tlen)
+                continue;
+
+            int cur_dp = 0x3f3f3f3f;
+            // S 删除一个字符
+            cur_dp = min(cur_dp, get_dp(i - 1, j) + 1);
+            // S 添加一个字符（即，T 删除一个字符）
+            cur_dp = min(cur_dp, get_dp(i, j - 1) + 1);
+
+            int c = 1;
+            if (S[i] == T[j])
+                c = 0;
+            // S 替换一个字符 或者 不操作
+            cur_dp = min(cur_dp, get_dp(i - 1, j - 1) + c);
+            // 更新 f
+            f[i][x] = cur_dp;
+        }
+    }
+
+    // 输出结果
+    if (get_dp(slen, tlen) <= K)
+        cout << "Yes" << endl;
+    else
+        cout << "No" << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
