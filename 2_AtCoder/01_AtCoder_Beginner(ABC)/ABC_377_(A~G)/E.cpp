@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc377/tasks/abc377_e
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -10,7 +10,7 @@ long long k;                   // k表示操作次数
 int cnt[200100], ans[200100];  // ans存储最终答案
 bool vis[200100];              // 记录某个位置是否被访问过
 
-// 快速幂
+// 快速幂，计算 a^k %m 的值
 long long fpow(long long a, long long b, long long m) {
     long long ans = 1;
     while (b) {
@@ -45,10 +45,10 @@ void solve() {
                 ans[c[j]] = c[(j + temp) % len];
             }
 
-            cout << "第一次循环：" << endl;
-            for (auto x : c)
-                cout << x << " ";
-            cout << endl;
+            // cout << "第一次循环：" << endl;
+            // for (auto x : c)
+            //     cout << x << " ";
+            // cout << endl;
         }
     }
 

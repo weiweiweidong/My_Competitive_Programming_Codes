@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc377/tasks/abc377_d
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -25,12 +25,9 @@ void solve() {
     for (int i = 1; i <= n; i++)
         cin >> a[i].l >> a[i].r;  // 读入n个区间的左右端点
 
-    // 排序 nlogn
-    sort(a + 1, a + n + 1, cmp);  // 将区间按左端点降序排序
-
     // 初始化ans数组
     for (int i = 1; i <= m + 1; i++)
-        ans[i] = m + 1;  // 初始化为最大可能值m+1
+        ans[i] = m + 1;  // 初始化为最大可能值m+1(对应右开区间)
 
     // 第一次处理：对于每个位置，找到以该位置为左端点的区间中，右端点最小的值。O(n)
     for (int i = 1; i <= n; i++)

@@ -1,24 +1,6 @@
 // Problem: https://atcoder.jp/contests/abc377/tasks/abc377_g
 // 这是一道标准的 Trie 树模板题
 
-/*
-题目：
-    给定 N 个字符串 S_i，只包含小写字母。
-    另 T=S_k，进行下面两种操作之一
-        操作 1：删除 T 最后一个字母，cost 为 1
-        操作 2：给 T 最后添加一个字母，cost 为 1
-    求将 T 变为空串 或 S_1 ~ S_{k-1} 中的任何一个串 所付出的最小代价
-
-思路：
-直观思路：先从 T 的尾部删除若干字符，删除后应该变成某个S_i的前缀，再开始添加字符
-可以使用字典树
-考虑对于 Trie 树上的每个节点，记录其到所有 S_i 的节点的最短距离 d。
-这个距离等价于：从这个节点代表的字符串开始，至少添加多少个字符能够到达一个 S_i。
-查询的时候，从T代表的节点不断向上爬，并统计（向上爬的步数+d）的最小值，就是答案
-
-代码学习源：https://atcoder.jp/contests/abc377/submissions/59210482
-*/
-
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long LL;
