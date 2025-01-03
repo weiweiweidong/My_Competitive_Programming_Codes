@@ -10,7 +10,7 @@ long long k;                   // k表示操作次数
 int cnt[200100], ans[200100];  // ans存储最终答案
 bool vis[200100];              // 记录某个位置是否被访问过
 
-// 快速幂，计算 a^k %m 的值
+// 快速幂模板，计算 a^k %m 的值
 long long fpow(long long a, long long b, long long m) {
     long long ans = 1;
     while (b) {
