@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc376/tasks/abc376_d
 
 /*
     标准做法：
@@ -15,16 +15,20 @@ typedef pair<int, int> PII;
 const int N = 2e5 + 10;
 int n, m, ans;
 
+// 声明图的结构体
 struct Graph {
     int h[N], e[N], ne[N], idx = 0;
     int dist[N];
     bool st[N];
     priority_queue<PII, vector<PII>, greater<PII>> heap;
 
+    // 图初始化
     Graph() { memset(h, -1, sizeof h); }
 
+    // 加边
     void add(int a, int b) { e[idx] = b, ne[idx] = h[a], h[a] = idx++; }
 
+    // dijkstra 求最短路
     void dijkstra() {
         memset(dist, 0x3f, sizeof dist);
         dist[1] = 0;
@@ -46,16 +50,17 @@ struct Graph {
             }
         }
     }
-} G1, G2;
+} G1, G2;  // 声明了两个图
 
 void solve() {
+    // 读入数据
     cin >> n >> m;
-
+    // 建图
     for (int i = 1; i <= m; i++) {
         int a, b;
         cin >> a >> b;
-        G1.add(a, b);
-        G2.add(b, a);
+        G1.add(a, b);  // 建正向图
+        G2.add(b, a);  // 建反向图
     }
 
     G1.dijkstra();

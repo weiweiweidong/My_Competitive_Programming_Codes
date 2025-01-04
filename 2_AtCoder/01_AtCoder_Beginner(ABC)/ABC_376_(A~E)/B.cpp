@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc376/tasks/abc376_b
 
 // 模拟题目
 #include <bits/stdc++.h>

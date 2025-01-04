@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc376/tasks/abc376_c
 
 // 贪心题目
 #include <bits/stdc++.h>
@@ -29,9 +29,9 @@ void solve() {
     // 读入数据
     cin >> n;
     for (int i = 1; i <= n; i++)
-        cin >> A[i];
+        cin >> A[i];  // 读入玩具的大小
     for (int i = 1; i <= n - 1; i++)
-        cin >> B[i];
+        cin >> B[i];  // 读入盒子的大小
     // 对 A 升序排序
     sort(A + 1, A + n + 1);
 

@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc376/tasks/abc376_e
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -15,28 +15,30 @@ void solve() {
     cin >> T;
     while (T--) {
         cin >> N >> K;
-        for (int i = 0; i < N; i++)
+        for (int i = 1; i <= N; i++)
             cin >> A[i].first;
-        for (int i = 0; i < N; i++)
+        for (int i = 1; i <= N; i++)
             cin >> A[i].second;
         // 排序
-        sort(A, A + N);
+        sort(A + 1, A + N + 1);
         // 初始化
         ans = 1e18, sum = 0;
-        while (!Q.empty())  // 清空堆
+        // 清空堆 （注：priority_queue没有clear函数）
+        while (!Q.empty())
             Q.pop();
 
         // 处理前 K-1 个数
-        for (int i = 0; i < K - 1; i++) {
+        for (int i = 1; i < K; i++) {
             Q.push(A[i].second);
             sum += (LL)A[i].second;
         }
 
         // 从第 K 个数开始
-        for (int i = K - 1; i < N; i++) {
+        for (int i = K; i <= N; i++) {
             sum += (LL)A[i].second;
-            ans = min(ans, sum * (LL)A[i].first);
+            ans = min(ans, (LL)A[i].first * sum);
             Q.push(A[i].second);
+            // 把看过的 B 的最大值弹出来去掉，就能保证 sum 的值是最小的
             sum -= (LL)Q.top();
             Q.pop();
         }

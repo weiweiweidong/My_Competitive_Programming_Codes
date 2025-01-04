@@ -1,4 +1,4 @@
-// Problem:
+// Problem: https://atcoder.jp/contests/abc376/tasks/abc376_d
 /*
 BFS 解法：
     本题目可以使用 BFS 的最主要原因是：边权为 1
@@ -23,11 +23,13 @@ void solve() {
 
     queue<int> q;
     vector<int> dis(n + 10, INF);
+    // 先把 1 周围的节点全部放入队列中
     for (auto v : g[1]) {
         q.push(v);
         dis[v] = 1;
     }
 
+    // BFS
     while (!q.empty()) {
         int now = q.front();
         q.pop();
