@@ -24,7 +24,9 @@ This repository is mainly used to store my notes and codes from learning various
 - [License](#license)
 - [Links](#links)
 
-### Project Introduction 
+****
+
+### Project Introduction
 
 During my studies, I gradually developed a keen interest in algorithms and came to understand their central role in computer science. For a programmer, algorithms are not only a fundamental skill but also the cornerstone of building efficient and reliable software, as well as a key driver for innovation and breakthroughs in fields like artificial intelligence and distributed systems. This repository mainly records my learning process and reflections on algorithms, and I hope it may be helpful or inspiring to you. 
 
