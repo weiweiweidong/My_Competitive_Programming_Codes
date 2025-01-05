@@ -4,6 +4,8 @@
   English | 
   <a title="日本語" href="README_jp.md">日本語</a>
 </div>
+
+
 # My Competitive Programming Codes
 
 This repository is mainly used to store my notes and codes from learning various algorithms and participating in programming contests.
@@ -203,7 +205,7 @@ filetree
     ├── ABC_385_(A~E)
     ├── ABC_386_(A~F)
     └── ABC_387
-    └── ...（更新中）
+    └── ...（In progress）
     ```
 
 ### License
