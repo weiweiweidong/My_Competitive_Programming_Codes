@@ -103,7 +103,7 @@ filetree
     │   ├── 6_Dijkstra
     │   ├── 7_Bellman_Ford
     │   ├── 8_SPFA
-    │   ├── 9_ Floyd
+    │   ├── 9_Floyd
     │   ├── 10_Prim
     │   ├── 11_Kruskal
     │   └── 12_Bipartite_Graph
@@ -144,7 +144,6 @@ filetree
     │   ├── 8_Digit_DP
     │   └── 9_Monotonic_Queue_Optimization_DP
     ├── CH2
-    │   ├── 12_Bi_Directional_DFS
     │   ├── 1_Flood_Fill
     │   ├── 2_Shortest_Path_Model
     │   ├── 3_MultiSource_BFS
@@ -155,7 +154,8 @@ filetree
     │   ├── 8_Connectivity_Model_DFS
     │   ├── 9_Search_Order_DFS
     │   ├── 10_Pruning_Optimization_DFS
-    │   └── 11_Iteration_Deepens
+    │   ├── 11_Iteration_Deepens
+    │   └── 12_Bi_Directional_DFS
     ├── CH3
     │   ├── 1_Single_Source_Shortest_Circuit
     │   │   ├── 1_Graph_Construction
@@ -179,7 +179,7 @@ filetree
     │   └── 12_Game_Theory
     └── CH6
         ├── 1_Bit
-        ├── 2_ Recursion
+        ├── 2_Recursion
         ├── 3_Prefix_Sum
         ├── 4_Binary_Search
         ├── 5_Sort
@@ -190,7 +190,7 @@ filetree
 
 - `2_AtCoder`：
 
-  - **`01_AtCoder_Beginner(ABC)`：（更新中）存储目前参加 AtCoder 比赛的代码和笔记。**详细笔记会同步更新在博客 [JoeyDDong's Blog](https://joeyddong.top/) 中。
+  - **`01_AtCoder_Beginner(ABC)`：（更新中）存储目前参加 AtCoder 比赛的代码和笔记。** 详细笔记会同步更新在博客 [JoeyDDong's Blog](https://joeyddong.top/) 中。
 
     ```
     .
