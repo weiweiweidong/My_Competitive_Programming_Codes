@@ -67,6 +67,113 @@ int main() {
 
 Problem：[C - Snake Numbers](https://atcoder.jp/contests/abc387/tasks/abc387_c)
 
+## 题目：
+
+10 以上的十进制正整数，最高位比剩下所有位数的值都严格大的数字称为“蛇数”。例如 `31` 和  `201` 是蛇数，但是 `35`  `202` 不是蛇数。
+
+求 L 到 R 之间有多少个蛇数。
+
+## 约束条件：
+
+$10 \leq L \leq R \leq 10^{18}$
+
+## 思路：
+
+### 方法 1：计数
+
+关键在于最高位。决定了最高位，就相当于决定了剩下每一位的上限。
+
+为了应对 <= R 的限制，可以考虑枚举数字的长度。假设数字的长度为 len，R 的长度为 R_len
+
+第一种情况：如果 len < R_len，说明不管当前数字怎么取，肯定都是小于 R 的。假设最高位选为 t，那么就一共有 t^{len -1 } 个蛇形数。
+
+第二种情况：如果 len == R_len
+
+​	子情况 1：最高位 t == R 的最高位。枚举我们构造的蛇形数与 R 的第一个不同的位数在哪里。假设是第 i 位，那么第 i 位以后的数字就可以随便填了。一共有 t^(len- i) 种可能
+
+​	子情况 2：最高位 t != R 的最高位。那么还是有 t^(len-1) 种
+
+```c++
+// Problem: https://atcoder.jp/contests/abc387/tasks/abc387_c
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+LL L, R;
+
+LL fpow(LL a, LL b) {
+    LL res = 1;
+    while (b) {
+        if (b & 1)
+            res = res * a;
+        b >>= 1;
+        a = a * a;
+    }
+    return res;
+}
+
+// 统计 [1,lx] 之间的蛇形数的个数
+LL cal(LL lx) {
+    if (lx < 10)
+        return 0;
+
+    LL num = 0;
+    string x = to_string(lx);
+    int high = x[0] - '0';
+    LL len = x.size();
+
+    // 情况 1：
+    for (int i = 2; i < len; i++)     // 枚举长度
+        for (int j = 1; j <= 9; j++)  // 枚举首位
+            num += fpow(j, i - 1);
+
+    // 处理相同位数，但是首位更小的情况
+    for (int j = 1; j < high; j++)
+        num += fpow(j, len - 1);
+
+    // 处理首位相同的情况：从高向低挨个看
+    for (int j = 0; j < len; j++) {
+        // 如果某一位大于等于high，无论后面是什么数字，都不可能构成蛇形数了
+        if (j != 0 && int(x[j] - '0') >= high)
+            break;
+
+        // 只看中间的位置
+        if (j < len - 1) {
+            // 下一位可以取的数就是 min(当前位数字, high)
+            num += min(int(x[j + 1] - '0'), high) * fpow(high, len - j - 2);
+        }
+
+        // 处理最后一位：如果能处理到最后一位了，说明x本身就是个蛇形数，把自己加上
+        if (j == len - 1)
+            num += 1;
+    }
+
+    return num;
+}
+
+void solve() {
+    cin >> L >> R;
+    cout << cal(R) - cal(L - 1) << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+
+
+### 方法 2：数位 DP
+
+
+
+
+
 # **D - Snaky Walk**
 
 Problem：[D - Snaky Walk](https://atcoder.jp/contests/abc387/tasks/abc387_d)

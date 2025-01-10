@@ -58,7 +58,7 @@ void solve() {
         for (int i = 2 * d; i < 2 + 2 * d; i++) {
             // d=0时，i=0 1，向左右走 ； d=1时，i= 2 3，向上下走
             int nx = x + dx[i], ny = y + dy[i];
-            if (check(nx, ny, !d)) {
+            if (check(nx, ny, !d)) {  // !d 表示翻转方向
                 q.push({nx, ny, !d});
                 dis[nx][ny][!d] = dis[x][y][d] + 1;
                 st[nx][ny][!d] = true;
