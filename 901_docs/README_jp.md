@@ -65,7 +65,7 @@ filetree
 
 - `0_History_Archive` ：未整理の過去ファイルを主に格納しています。
 
-- **`1_AcWing_Algo_Course`：AcWingアルゴリズム講座のコードと学習ノートをまとめています。**
+- **`1_AcWing_Algo_Course`：AcWingアルゴリズム講座のコードと学習ノートをまとめています。** このコースを通じて、さまざまなアルゴリズムに関する基礎知識を身につけました。覚えることが多すぎてすぐに忘れそうなので、いつでも復習できるようにコードを全部このフォルダにまとめています。
 
   - **`1_Basic_Algorithms`** ：AcWing初級アルゴリズム講座で学習したすべてのコードとノートを保存しています。詳細なディレクトリ構成は以下のとおりです：：
 
@@ -129,7 +129,7 @@ filetree
         └── 4_Formula_Derivation
     ```
 
-  - **`2_Advanced_Algorithms` ：（更新中）AcWing上級アルゴリズム講座のコードと学習ノートを含みます。詳細は以下のとおりです：**
+  - **`2_Advanced_Algorithms` ：（勉強中）AcWing上級アルゴリズム講座のコードと学習ノートを含みます。詳細は以下のとおりです：**
 
     ```
     2_Advanced_Algorithms
@@ -190,7 +190,7 @@ filetree
 
 - `2_AtCoder`：
 
-  - **`01_AtCoder_Beginner(ABC)`：（更新中）AtCoder Beginner Contest への参加時に書いたコードやノートを保存しています。より詳しいノートは [JoeyDDong's Blog](https://joeyddong.top/) にも随時アップデート中です**。
+  - **`01_AtCoder_Beginner(ABC)`：（更新中）AtCoder Beginner Contest への参加時に書いたコードやノートを保存しています。より詳しいノートは [JoeyDDong's Blog](https://joeyddong.top/) にもアップデートしています**。
 
     ```
     .
