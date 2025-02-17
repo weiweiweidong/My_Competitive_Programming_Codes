@@ -129,7 +129,7 @@ filetree
         └── 4_Formula_Derivation
     ```
 
-  - **`2_Advanced_Algorithms` ：（勉強中）AcWing初級アルゴリズム講座で学習したすべてのコードとノートを含みます。詳細は以下のとおりです：**
+  - **`2_Advanced_Algorithms` ：（勉強中）AcWing上級アルゴリズム講座で学習したすべてのコードとノートを含みます。詳細は以下のとおりです：**
 
     ```
     2_Advanced_Algorithms
