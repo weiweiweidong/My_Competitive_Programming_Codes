@@ -12,7 +12,8 @@ void solve() {
     cin >> s;
     for (auto x : s)
         if (x == '2')
-            cnt++;
+            cnt++;  // 计算有多少个 2
+    // 输出
     cout << string(cnt, '2') << endl;
 }
 

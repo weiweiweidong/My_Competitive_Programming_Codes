@@ -9,6 +9,7 @@ const int N = 55;
 int n;
 string s[N];
 
+// 自定义 cmp 算子
 bool cmp(string& a, string& b) {
     return a.size() < b.size();
 }
@@ -17,8 +18,10 @@ void solve() {
     cin >> n;
     for (int i = 0; i < n; i++)
         cin >> s[i];
+    // 升序排序
     sort(s, s + n, cmp);
 
+    // 从前往后输出
     for (int i = 0; i < n; i++)
         cout << s[i];
     cout << endl;
