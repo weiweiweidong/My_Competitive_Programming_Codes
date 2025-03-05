@@ -310,7 +310,7 @@ Problem：[D - Pigeon Swap](https://atcoder.jp/contests/abc395/tasks/abc395_d)
 
 - 将鸽子 a 放入笼子 b 中
 - 将笼子 a 的鸽子全部放入笼子 b 中
-- 询问鸽子 a 所在笼子的位置
+- 询问鸽子 a 所在笼子的编号
 
 ## 约束条件：
 
@@ -320,9 +320,87 @@ $1 \leq Q \leq 3 \times 10^5$
 
 ## 思路：
 
+这道题思维难度有点抽象。
 
+我们定义下面三个数组：
 
+- `p[i]` ：表示【编号为 i 的鸽子】所在的【笼子编号】
+- `q[i]` ：表示【编号为 i 的笼子】目前的【门牌编号】
+- `r[i]` ：表示【门牌编号为 i 的笼子】对应的【笼子编号】
 
+上面三个数组之间的关系如下图所示：
+
+<img src="./assets/image-20250305203105044.png" alt="image-20250305203105044" style="zoom: 67%;" />
+
+**操作 1**：
+
+将【鸽子编号 a】 放入【门牌编号 b】的鸽子笼中：
+
+`p[a] = r[b]`
+
+**操作 2**：
+
+将【门牌编号 a】和【门牌编号 b】的鸽子笼相互交换：
+
+`q[r[a]] = b , q[r[b]] = a`
+
+**操作 3**：
+
+输出【鸽子编号 a】目前所在鸽子笼的【门牌编号】：
+
+`q[p[a]]`
+
+```c++
+// Problem: https://atcoder.jp/contests/abc395/tasks/abc395_d
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+const int N = 1e6 + 10;
+int p[N], q[N], r[N];
+int n, m;
+int op, a, b;
+
+void solve() {
+    cin >> n >> m;
+
+    // 初始化
+    for (int i = 1; i <= n; i++)
+        p[i] = q[i] = r[i] = i;
+
+    // 读入所有的操作
+    while (m--) {
+        cin >> op;
+
+        // 操作 1：将【鸽子编号 a】 放入【门牌编号 b】的鸽子笼中
+        if (op == 1) {
+            cin >> a >> b;
+            p[a] = r[b];
+        }
+        // 操作 2：将【门牌编号 a】和【门牌编号 b】的鸽子笼相互交换
+        else if (op == 2) {
+            cin >> a >> b;
+            q[r[a]] = b;
+            q[r[b]] = a;
+            swap(r[a], r[b]);
+        }
+        // 输出【鸽子编号 a】目前所在鸽子笼的【门牌编号】
+        else {
+            cin >> a;
+            cout << q[p[a]] << endl;
+        }
+    }
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
 
 # **E - Flip Edge**
 
@@ -355,11 +433,80 @@ $1 \leq v _ i \leq N \ (1 \leq i \leq M)$
 
 分层图建图的模板题。
 
+一般分层图建图有两种写法
 
+- 开二维数组，第二个维度用来标记分层图。但是写起来比较麻烦
+- 使用 $i$ 和 $i+n$ 来对应第一层图和第二层图。缺点是：一旦层数多了会比较的难看。
 
+本题使用第二种建图方式。
 
+```c++
+// Problem: https://atcoder.jp/contests/abc395/tasks/abc395_e
 
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
 
+const int N = 2e5 + 10;
+
+// G[u]：存储所有以 u 为起点的边的信息，(v,w)： u->v，边权为 w
+vector<PII> G[N * 2];
+int n, m, x;
+
+LL dis[N * 2];
+bool used[N * 2];
+
+void addedge(int u, int v, int w) {
+    G[u].emplace_back(v, w);
+}
+
+void solve() {
+    cin >> n >> m >> x;
+    for (int i = 1; i <= m; i++) {
+        int u, v;
+        cin >> u >> v;
+        // 正向建图
+        addedge(u, v, 1);
+        // 反向建图
+        addedge(v + n, u + n, 1);
+    }
+    // 在正图和反图的节点之间添加边权为 x 的双向边
+    for (int i = 1; i <= n; i++) {
+        addedge(i, i + n, x);
+        addedge(i + n, i, x);
+    }
+
+    /* 堆优化版的 Dijkstra 模板*/
+    // 小根堆
+    priority_queue<pair<LL, int>, vector<pair<LL, int>>, greater<pair<LL, int>>>
+        q;
+    for (int i = 1; i <= 2 * n; i++)
+        dis[i] = 1e18;
+    q.push({dis[1] = 0, 1});
+    while (!q.empty()) {
+        auto [_, v] = q.top();
+        q.pop();
+        used[v] = true;
+
+        for (auto [to, w] : G[v]) {
+            if (dis[to] > dis[v] + w) {
+                dis[to] = dis[v] + w;
+                q.push({dis[to], to});
+            }
+        }
+    }
+
+    cout << min(dis[n], dis[n + n]) << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
 
 # **F - Smooth Occlusion**
 
@@ -398,9 +545,7 @@ $1 \leq X \leq 10^9$
 
 <img src="./assets/image-20250304181136451.png" alt="image-20250304181136451" style="zoom:50%;" />
 
-## 思路：
-
-### 思路 1：二分
+## 思路：二分
 
 如果能够确定 $H$，那么总花费一定是 $\sum^n_{i=1} (U[i]+D[i])-nH$。可以发现这个公式中，前半部分求和的部分是不变的，唯一的变量就是 $H$。那么希望总花费尽可能小，就一定要找到最大的 $H$。
 
@@ -414,7 +559,7 @@ $1 \leq X \leq 10^9$
 >
 > 
 
-#### 问题描述：
+### 问题描述：
 
 所以我们就可以把问题变成了一个二分的判定性问题。
 
@@ -425,7 +570,7 @@ $1 \leq X \leq 10^9$
 > - 条件 1：$U^{\prime}[i] + D^{\prime}[i] = H$
 > - 条件 2：$|U^{\prime}[i] - U^{\prime}[i+1]| \le X$
 
-#### 条件 1 的处理：
+### 条件 1 的处理：
 
 对于条件 1，我们进行如下变形：
 
@@ -443,7 +588,7 @@ U'[i] &\leq U[i] &\quad D'[i] &\leq D[i] \\
 $$
 通过上面的推理，我们可以发现实际上 $U^{\prime}[i]$ 是存在一个范围的，这个范围由初始值来约束。
 
-#### 条件 2 的处理：
+### 条件 2 的处理：
 
 条件 2 比较难处理。但是我们可以做下面的推导：
 
@@ -463,7 +608,7 @@ $\max(H - D[2], 0 , U'[1] - X) \leq U'[2] \leq \min( U[2] , U'[1] + X)$
 
 从上面的公式推导就可以发现，每次更新 $U'[i]$ 时候，是需要用到上一次的 $U'[i-1]$ 来更新当前的范围的。
 
-#### 可以使用的结论：
+### 可以使用的结论：
 
 为了判别值为 $H$ 时候，序列 $U'[i]$ 是否满足要求，只需要从前往后遍历每一个值，保证下面不等式成立即可：
 $$
@@ -473,7 +618,7 @@ $$
 $$
 总时间复杂度为 $O(n\log n)$
 
-#### 代码实现：
+### 代码实现：
 
 ```c++
 // Problem: https://atcoder.jp/contests/abc395/tasks/abc395_f
@@ -539,11 +684,3 @@ int main() {
     return 0;
 }
 ```
-
-### 思路 2：贪心
-
-Reference：[F - Smooth Occlusion 解説 by MMNMM](https://atcoder.jp/contests/abc395/editorial/12345)
-
-### 思路 3：差分约束
-
-Reference：[F - Smooth Occlusion 解説 by MMNMM](https://atcoder.jp/contests/abc395/editorial/12345)
