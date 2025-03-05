@@ -42,20 +42,16 @@
 
 ```
 filetree 
-├── 0_History_Archive
 ├── 1_AcWing_Algo_Course
-│   ├── 1_Basic_Algorithms
-│   ├── 2_Advanced_Algorithms
-│   └── 99_AcWing_Week
+│   ├── 1_Basic_Algorithms
+│   ├── 2_Advanced_Algorithms
+│   └── 99_AcWing_Week
 ├── 2_AtCoder
-│   ├── 01_AtCoder_Beginner(ABC)
-│   ├── 02_AtCoder_Regular(ARC)
-│   ├── 04_AtCoder_Heuristic(AHC)
-│   ├── 10_Permanent_Contests
-│   ├── 15_Practice
-│   └── 20_Virtual_ABC_Practice
+│   ├── 01_AtCoder_Beginner(ABC)
+│   └── 04_AtCoder_Heuristic(AHC)
 ├── 3_Codeforces
 ├── 4_LeetCode
+├── 10_Practice
 ├── 900_template
 ├── 901_docs
 └── 999_test_file_clear_script
@@ -207,7 +203,11 @@ filetree
     ├── ABC_384_(A~F)
     ├── ABC_385_(A~E)
     ├── ABC_386_(A~F)
-    └── ABC_387
+    ├── ABC_387
+    ├── ABC_390_(A~E)
+    ├── ABC_393_(A~F)
+    ├── ABC_394_(A~F)
+    ├── ABC_395_(A~F)
     └── ...（更新中）
     ```
 
