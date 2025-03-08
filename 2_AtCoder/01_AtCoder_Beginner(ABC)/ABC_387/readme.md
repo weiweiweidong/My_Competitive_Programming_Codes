@@ -2,7 +2,7 @@
 
 Problem：[A - Happy New Year 2025](https://atcoder.jp/contests/abc387/tasks/abc387_a)
 
-计算 A+B 的平方。签到题。
+计算 A+B 的平方。约束条件非常的小，$1 \leq A,B \leq 2025$，肯定不会爆 `int`。
 
 ```c++
 // Problem: https://atcoder.jp/contests/abc387/tasks/abc387_a
@@ -50,7 +50,7 @@ void solve() {
     for (int i = 1; i <= 9; i++)
         for (int j = 1; j <= 9; j++)
             if (i * j != x)
-                res += 1ll * i * j;
+                res += i * j;
 
     cout << res << endl;
 }
@@ -165,8 +165,6 @@ int main() {
     return 0;
 }
 ```
-
-
 
 ### 方法 2：数位 DP
 
