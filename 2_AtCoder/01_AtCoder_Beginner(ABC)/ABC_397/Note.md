@@ -225,19 +225,173 @@ $1 \leq N \leq 10^{18}$
 
 ## 思路：
 
-![image-20250316234954525](./assets/image-20250316234954525.jpg)
+> Tips：`long long` 的最大值是 $2^{63}-1 \approx 9\times 10^{18}$
 
+如果直接枚举 x 和 y 的话，时间复杂度大约为 ${\sqrt[3] {10^{18}}}^2 \approx 10^{12}$，肯定是不能被接受的。理想的时间复杂度应该是 $10^6$ 或者 $10^6 \log 10^6$。
 
+那么最好的思路应该是：**枚举一个数，然后快速的算出另一个数，判断是否满足条件。**
 
-# E
+推导思路如下：
 
-Problem：
+![image-20250321164444712](./assets/image-20250321164444712.png)
+
+通过上面的流程，就可以在枚举 a 的情况下，快速计算出 b，同时快速计算出 x 和 y 的值。（注意流程中的几个隐藏条件即可）
+
+```c++
+// Problem: https://atcoder.jp/contests/abc397/tasks/abc397_d
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+LL N;
+
+void solve() {
+    cin >> N;
+
+    // 开始枚举 a
+    for (LL a = 1; a * a <= N / a; a++) {
+        // 判断是否存在 b
+        if (N % a == 0) {
+            LL b = N / a;
+
+            // 判断 z 是否是个整数
+            LL z = a * a - b;
+            if (z % 3 == 0) {
+                z /= 3;
+                // 判断 y 是否存在
+                if (a * a - 4 * z >= 0) {
+                    LL root = sqrt(a * a - 4 * z);
+                    LL y = (-a + root) / 2;
+                    if (y > 0 && (-a + root) % 2 == 0) {
+                        LL x = y + a;
+                        // 输出答案，结束程序
+                        if (x * x * x - y * y * y == N) {
+                            cout << x << " " << y << endl;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    cout << -1 << endl;
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+## 补充题目：
+
+Problem：[D - I hate Factorization](https://atcoder.jp/contests/abc166/tasks/abc166_d)
+
+这道题目和本题类似，但是难度大大降低。
+
+我们首先考虑一个数列：$n^5-(n-1)^5$
+
+简单计算一下这个数列，可以得到下列数据：
+
+```
+n = 1: value = 1
+n = 2: value = 31
+n = 3: value = 211
+n = 4: value = 781
+……………………
+n = 118: value = 953097211
+n = 119: value = 985959031
+```
+
+从上面可以知道，**前后两个数的五次方之间的差，第一次超过 `1e9` 是在下标为 `120` 的时候。**
+
+如果两个数之间差距越大，那么他们五次方的差超过 1e9 的速度就越快。从上可以知道，实际上我们仅仅遍历 `[-120,120]` 之间的数其实就够枚举出答案了。
+
+使用最暴力的全枚举，或者引入 map 预先保存预处理的五次方值，均可以解出本题。
+
+```c++
+// Problem: https://atcoder.jp/contests/abc166/tasks/abc166_d
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+typedef pair<int, int> PII;
+
+LL X;
+void solve() {
+    cin >> X;
+
+    // 预处理出来范围内的 五次方值
+    unordered_map<LL, LL> mp;
+    for (int a = -120; a < 121; a++)
+        mp[1ll * a * a * a * a * a] = a;
+
+    // 看一下能不能找到配对的值
+    for (pair<LL, LL> d : mp) {
+        LL b5 = d.first, b = d.second;
+        if (mp.count(X + b5)) {
+            LL a = mp[X + b5];
+            cout << a << " " << b << endl;
+            return;
+        }
+    }
+}
+
+int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(false);
+    solve();
+    return 0;
+}
+```
+
+# **E - Path Decomposition of a Tree**
+
+Problem：[E - Path Decomposition of a Tree](https://atcoder.jp/contests/abc397/tasks/abc397_e)
+
+树状 DP + DFS
 
 ## 题目：
 
+给定一棵树，有 $NK$ 个节点，编号为 $1,2,…, NK$。有 $NK-1$ 条无向边。
+
+判断这棵树是否能被分解为 N 条长度为 K 的路径。
+
+更准确的说，是否存在一个 $N\times K$ 的矩阵 P，满足：
+
+- 矩阵的所有元素是 $1\sim NK$ 的一种排列。
+- 矩阵中的元素中，$P_{i,j}$ 和 $P_{i,j+1}$ 之间有边相连。（即矩阵中每一行，前后两个节点间都有边）
+
 ## 约束条件：
 
+$1 \leq N$
+
+$1 \leq K$
+
+$NK \leq 2 \times 10^5$
+
+$1 \leq u_i < v_i \leq NK$
+
 ## 思路：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
