@@ -19,26 +19,33 @@ void NO() {
 
 void dfs(int u, int fa) {
     sz[u] = 1;
-    int ch = 0;
+    int son = 0;
     // 遍历 u 的所有子节点
     for (int v : G[u])
         if (v != fa) {
             dfs(v, u);
             // 如果子节点尺寸还有剩余
             if (sz[v]) {
-                ch++;
+                son++;
                 sz[u] += sz[v];
             }
         }
 
+    // 如果 sz[u]<k，说明此时 u 只能形成单链结构
     if (sz[u] < k) {
-        if (u == 1 || ch > 1)
+        // 如果 u 是根节点 或 u 有超过 2 个儿子
+        if (u == 1 || son > 1)
             NO();
-    } else if (sz[u] == k) {
-        if (ch > 2)
+    }
+    // 如果 sz[u]==k，说明此时 u 可以有两个儿子
+    else if (sz[u] == k) {
+        if (son > 2)
             NO();
+        // 清空该子树
         sz[u] = 0;
-    } else
+    }
+    // 如果 sz[u]>k，没有符合条件的路径
+    else
         NO();
 }
 
@@ -51,6 +58,7 @@ void solve() {
         G[u].push_back(v), G[v].push_back(u);
     }
 
+    // 1号节节点为根节点，0为虚拟父节点
     dfs(1, 0);
 
     cout << "Yes" << endl;
